@@ -61,3 +61,30 @@ export const create = (course: CoursePayload): CreateStatus => {
 
   return { status: 201 };
 };
+
+export const remove = (courseId: string) => {
+  const data = getDataFromLocalStorage();
+
+  if (!data) {
+    return {
+      status: 400,
+    };
+  }
+
+  const exists = data.courses.some((course) => course.id === courseId);
+
+  if (!exists) {
+    return {
+      status: 404,
+    };
+  }
+
+  setDataToLocalStorage({
+    ...data,
+    courses: data.courses.filter((course) => course.id !== courseId),
+  });
+
+  return {
+    status: 202,
+  };
+};

@@ -23,12 +23,12 @@ export const getAllCourses = (): Course[] => {
 
 export const createCourse = (data: CoursePayload) => {
   const result = courseRepository.create(data);
-
   return result;
 };
 
-export const deleteCourse = () => {
-  // ...
+export const deleteCourse = (courseId: string) => {
+  const result = courseRepository.remove(courseId);
+  return result;
 };
 
 export const updateCourse = () => {
