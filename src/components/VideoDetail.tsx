@@ -5,8 +5,10 @@ import { Lesson } from "@/models/lesson.model";
 
 type VideoDetailProps = {
   course: Course;
+  onFinish: (lesson: Lesson | null) => void;
 };
-const VideoDetail = ({ course }: VideoDetailProps) => {
+
+const VideoDetail = ({ course, onFinish }: VideoDetailProps) => {
   const currentLesson = useMemo<Lesson | undefined>(() => {
     return course.lessons.find(
       (lesson) => lesson.id === course.currentLessonId,
@@ -60,6 +62,12 @@ const VideoDetail = ({ course }: VideoDetailProps) => {
         >
           <button
             type="button"
+            onClick={() =>
+              window.open(
+                `https://www.youtube.com/watch?v=${currentLesson?.videoId}`,
+                "_blank",
+              )
+            }
             style={{
               whiteSpace: "nowrap",
               padding: "0 10px",
@@ -70,13 +78,16 @@ const VideoDetail = ({ course }: VideoDetailProps) => {
           </button>
           <button
             type="button"
+            onClick={() => onFinish(currentLesson || null)}
             style={{
               whiteSpace: "nowrap",
               padding: "0 10px",
               cursor: "pointer",
             }}
           >
-            concluir lição
+            {currentLesson?.done
+              ? "Marcar como pendente"
+              : "Marcar como concluído"}
           </button>
         </div>
       </div>

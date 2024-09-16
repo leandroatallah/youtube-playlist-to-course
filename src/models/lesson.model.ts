@@ -3,4 +3,5 @@ export type Lesson = {
   title: string;
   videoId: string;
   thumbnailUrl: string;
+  done: boolean;
 };

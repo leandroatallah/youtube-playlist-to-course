@@ -79,6 +79,7 @@ const LessonList = ({
                 style={{
                   border: "1px solid #777",
                   borderRadius: 2,
+                  backgroundColor: lesson.done ? "#777" : "unset",
                 }}
               >
                 <div
