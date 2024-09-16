@@ -1,5 +1,6 @@
 import { Course } from "@/models/course.model";
 import { Lesson } from "@/models/lesson.model";
+import { useMemo } from "react";
 
 type LessonListProps = {
   course: Course;
@@ -14,6 +15,13 @@ const LessonList = ({
   currentLessonId,
   onSelectLesson,
 }: LessonListProps) => {
+  const progress = useMemo(() => {
+    const count = course.lessons.length;
+    const doneCount = course.lessons.filter((lesson) => lesson.done).length;
+
+    return (doneCount / count) * 100;
+  }, [course.lessons]);
+
   return (
     <div
       style={{
@@ -45,7 +53,7 @@ const LessonList = ({
             fontSize: 14,
           }}
         >
-          20%
+          {progress.toFixed(2)}%
         </div>
       </div>
       <div
@@ -79,7 +87,7 @@ const LessonList = ({
                 style={{
                   border: "1px solid #777",
                   borderRadius: 2,
-                  backgroundColor: lesson.done ? "#777" : "unset",
+                  backgroundColor: lesson.done ? "#999" : "unset",
                 }}
               >
                 <div
