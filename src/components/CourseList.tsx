@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { getDataFromLocalStorage } from "@/database/localStorage";
 import { deleteCourse } from "@/services/course.crud";
-import CourseItem from "./CourseItem";
 import { Course } from "@/models/course.model";
+import CourseItem from "./CourseItem";
 
 const CourseList = () => {
   const router = useRouter();

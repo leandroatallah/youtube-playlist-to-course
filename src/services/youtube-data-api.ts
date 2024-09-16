@@ -66,6 +66,10 @@ export const fetchPlaylistItems = async (playlistId: string) => {
   const response = await fetch(url);
   const data = (await response.json()) as youtubePlaylistItemsResponse;
 
+  if (!data?.items?.length) {
+    return []
+  }
+
   return data.items.map((item) => ({
     title: item.snippet.title,
     videoId: item.snippet.resourceId.videoId,

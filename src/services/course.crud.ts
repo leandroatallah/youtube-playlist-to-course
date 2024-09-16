@@ -1,5 +1,6 @@
 import { Course, CoursePayload } from "@/models/course.model";
 import * as courseRepository from "@/repositories/course.repository";
+import * as lessonRepository from "@/repositories/lesson.repository";
 
 export const getCourseById = (courseId: string): Course | null => {
   const course = courseRepository.getById(courseId);
@@ -33,4 +34,9 @@ export const deleteCourse = (courseId: string) => {
 
 export const updateCourse = () => {
   // ...
+};
+
+export const updateCurrentLesson = (courseId: string, lessonId: string) => {
+  const result = lessonRepository.setCurrentLesson(courseId, lessonId);
+  return result;
 };

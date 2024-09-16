@@ -1,61 +1,97 @@
-import { useMemo } from "react";
-import { useRouter } from "next/navigation";
-
-import { getDataFromLocalStorage } from "@/database/localStorage";
-import { getCourseById } from "@/services/course.crud";
+import { Course } from "@/models/course.model";
 import { Lesson } from "@/models/lesson.model";
 
 type LessonListProps = {
-  courseId: string;
+  course: Course;
   items: Lesson[];
+  currentLessonId: string;
+  onSelectLesson: (lessonId: string) => void;
 };
 
-const LessonList = ({ courseId, items }: LessonListProps) => {
-  const router = useRouter();
-  const course = useMemo(() => {
-    const data = getCourseById(courseId);
-
-    if (!data) {
-      // ...
-      return null;
-    }
-
-    return data;
-  }, []);
-
-  console.log("course", course);
-
+const LessonList = ({
+  course,
+  items,
+  currentLessonId,
+  onSelectLesson,
+}: LessonListProps) => {
   return (
-    <div>
-      <div>LessonList</div>
-      <div>
-        <button type="button" onClick={() => router.push("/courses")}>
-          Meus cursos
-        </button>
+    <div
+      style={{
+        border: "1px solid #aaa",
+        borderRadius: 4,
+        padding: 10,
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyItems: "space-between",
+          gap: 10,
+          padding: "10px 0 20px",
+        }}
+      >
+        <div
+          style={{
+            flex: 1,
+            fontSize: 16,
+            fontWeight: 700,
+          }}
+        >
+          {course.title}
+        </div>
+        <div
+          style={{
+            fontSize: 14,
+          }}
+        >
+          20%
+        </div>
       </div>
-
-      {/* <div>Current lesson Id: {currentLessonId}</div> */}
-      <div>Course Id: {courseId}</div>
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           gap: 10,
-          border: "1px solid #aaa",
-          padding: 10,
         }}
       >
-        {items.map((lesson) => (
-          <div
-            key={lesson.id}
-            style={{
-              border: "1px solid #aaa",
-              padding: 10,
-            }}
-          >
-            {lesson.title}
-          </div>
-        ))}
+        {items.map((lesson) => {
+          const isCurrent = lesson.id === currentLessonId;
+          return (
+            <div
+              key={lesson.id}
+              onClick={() => onSelectLesson(lesson.id)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                border: "1px solid #aaa",
+                borderRadius: 4,
+                padding: 10,
+                fontSize: 12,
+                cursor: "pointer",
+                backgroundColor: isCurrent
+                  ? "rgba(125, 125, 125, 0.5)"
+                  : "unset",
+              }}
+            >
+              <div
+                style={{
+                  border: "1px solid #777",
+                  borderRadius: 2,
+                }}
+              >
+                <div
+                  style={{
+                    width: 12,
+                    height: 12,
+                  }}
+                ></div>
+              </div>
+              {lesson.title}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

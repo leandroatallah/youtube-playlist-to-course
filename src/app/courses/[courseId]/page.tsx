@@ -1,24 +1,91 @@
 "use client";
 
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
-import { getDataFromLocalStorage } from "@/database/localStorage";
 import { Course } from "@/models/course.model";
 import VideoDetail from "@/components/VideoDetail";
 import LessonList from "@/components/LessonList";
+import { useRouter } from "next/navigation";
+import Logo from "@/components/Logo";
+import { getCourseById, updateCurrentLesson } from "@/services/course.crud";
 
 const CourseDetail = ({ params }: { params: { courseId: string } }) => {
-  const course: Course | undefined = useMemo(() => {
-    const data = getDataFromLocalStorage();
-    return data.courses.find((course) => course.playlistId === params.courseId);
-  }, []);
+  const router = useRouter();
 
-  if (!course) {
+  const course: Course | null = useMemo(() => {
+    return getCourseById(params.courseId);
+  }, [params.courseId]);
+
+  const handleOnSelectLesson = useCallback(
+    (lessonId: string) => {
+      if (!course?.id) {
+        // ...
+        return;
+      }
+
+      if (course.currentLessonId === lessonId) {
+        return;
+      }
+
+      updateCurrentLesson(course?.id, lessonId);
+
+      location.reload();
+    },
+    [course?.currentLessonId, course?.id],
+  );
+
+  if (!course || !course.currentLessonId) {
     return <div>Not found</div>;
   }
+
   return (
-    <div>
-      <h1>{course?.title}</h1>
+    <div
+      style={{
+        maxWidth: 1024,
+        margin: "0 auto",
+        padding: "0 10px",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyItems: "space-between",
+          alignItems: "center",
+          padding: "20px 0",
+        }}
+      >
+        <div
+          style={{
+            flex: 1,
+          }}
+        >
+          <Logo />
+        </div>
+        <button
+          type="button"
+          style={{
+            padding: 0,
+            border: 0,
+            background: "unset",
+            fontSize: 14,
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+          onClick={() => router.push("/courses")}
+        >
+          Meus cursos
+        </button>
+      </div>
+      <h1
+        style={{
+          marginTop: 20,
+          marginBottom: 20,
+          fontSize: 32,
+        }}
+      >
+        {course?.title}
+      </h1>
       <div
         style={{
           display: "flex",
@@ -28,22 +95,22 @@ const CourseDetail = ({ params }: { params: { courseId: string } }) => {
       >
         <div
           style={{
-            flex: 1,
+            width: "calc(100% - 280px)",
           }}
         >
-          <VideoDetail title={course.title} />
+          <VideoDetail course={course} />
         </div>
 
         <div
           style={{
-            maxWidth: 240,
-            width: "100%",
+            width: 280,
           }}
         >
           <LessonList
-            // currentLessonId={params.lessonId}
-            courseId={course.id}
+            currentLessonId={course.currentLessonId}
+            course={course}
             items={course.lessons}
+            onSelectLesson={(lessonId) => handleOnSelectLesson(lessonId)}
           />
         </div>
       </div>

@@ -54,9 +54,14 @@ export const create = (course: CoursePayload): CreateStatus => {
     id: lesson.videoId,
   }));
 
+  const currentLessonId = lessons.length ? lessons[0].id : null;
+
   setDataToLocalStorage({
     ...data,
-    courses: [...data.courses, { ...course, id: courseId, lessons }],
+    courses: [
+      ...data.courses,
+      { ...course, id: courseId, lessons, currentLessonId },
+    ],
   });
 
   return { status: 201 };

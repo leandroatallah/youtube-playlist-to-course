@@ -9,6 +9,7 @@ export type Course = {
   channelId: string;
   thumbnailUrl: string;
   lessons: Lesson[];
+  currentLessonId: string | null;
 };
 
 export type CoursePayload = Omit<Course, "id" | "lessons"> & {
