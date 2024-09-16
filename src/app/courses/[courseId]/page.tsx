@@ -4,6 +4,8 @@ import { useMemo } from "react";
 
 import { getDataFromLocalStorage } from "@/database/localStorage";
 import { Course } from "@/models/course.model";
+import VideoDetail from "@/components/VideoDetail";
+import LessonList from "@/components/LessonList";
 
 const CourseDetail = ({ params }: { params: { courseId: string } }) => {
   const course: Course | undefined = useMemo(() => {
@@ -14,7 +16,17 @@ const CourseDetail = ({ params }: { params: { courseId: string } }) => {
   if (!course) {
     return <div>Not found</div>;
   }
-  return <h1>{course?.title}</h1>;
+  return (
+    <div>
+      <h1>{course?.title}</h1>
+      <VideoDetail />
+      <LessonList
+        // currentLessonId={params.lessonId}
+        courseId={course.id}
+        items={course.lessons}
+      />
+    </div>
+  );
 };
 
 export default CourseDetail;

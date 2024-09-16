@@ -1,14 +1,14 @@
 import { Course, CoursePayload } from "@/models/course.model";
 import * as courseRepository from "@/repositories/course.repository";
 
-export const getCourseById = (courseId: string): Course => {
+export const getCourseById = (courseId: string): Course | null => {
   const course = courseRepository.getById(courseId);
 
   if (!course) {
     // ...
   }
 
-  return course!;
+  return course || null;
 };
 
 export const getAllCourses = (): Course[] => {

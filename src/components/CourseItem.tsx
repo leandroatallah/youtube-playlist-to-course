@@ -41,6 +41,7 @@ const CourseItem = ({ data, onDeleteCourse }: CourseItemProp) => {
           flex: 1,
           fontSize: 18,
           fontWeight: 700,
+          cursor: "pointer",
         }}
         onClick={handlePushToDetail}
       >

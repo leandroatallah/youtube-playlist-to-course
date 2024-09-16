@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { getDataFromLocalStorage } from "@/database/localStorage";
 import { deleteCourse } from "@/services/course.crud";
@@ -8,6 +9,7 @@ import CourseItem from "./CourseItem";
 import { Course } from "@/models/course.model";
 
 const CourseList = () => {
+  const router = useRouter();
   const [courses, setCourses] = useState<Course[]>([]);
 
   const fetchCourseList = () => {
@@ -42,6 +44,17 @@ const CourseList = () => {
           onDeleteCourse={() => handleRemoveCourse(course.id)}
         />
       ))}
+
+      <button
+        type="button"
+        onClick={() => router.push("/")}
+        style={{
+          width: "100%",
+          cursor: "pointer",
+        }}
+      >
+        + adicionar curso
+      </button>
     </div>
   );
 };

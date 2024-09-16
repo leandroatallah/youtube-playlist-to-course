@@ -71,7 +71,7 @@ const Form = () => {
       <input
         value={inputValue}
         type="url"
-        placeholder="Insert a Youtube Playlist"
+        placeholder="Cole uma URL de uma playlist do Youtube"
         onInput={handleOnInput}
       />
       <button
@@ -79,7 +79,7 @@ const Form = () => {
         disabled={isButtonDisabled}
         onClick={handleOnSubmit}
       >
-        {isLoading ? "Loading" : "Create course"}
+        {isLoading ? "Carregando" : "Criar curso"}
       </button>
     </div>
   );

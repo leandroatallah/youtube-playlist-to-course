@@ -7,6 +7,7 @@ export default function Home() {
       <main className={styles.main}>
         <h1>Utemy</h1>
 
+        <p>Converta playlists do Youtube em cursos!</p>
         <Form />
       </main>
     </div>
