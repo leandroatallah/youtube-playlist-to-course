@@ -19,9 +19,7 @@ export const getById = (courseId: string): Course | undefined => {
 
   const { courses } = data;
 
-  const result = courses.find((item: Course) => item.id === courseId);
-  console.log(result);
-  return result;
+  return courses.find((item: Course) => item.id === courseId);
 };
 
 export const getAll = (): Course[] | undefined => {

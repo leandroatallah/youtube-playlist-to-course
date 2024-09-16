@@ -19,12 +19,34 @@ const CourseDetail = ({ params }: { params: { courseId: string } }) => {
   return (
     <div>
       <h1>{course?.title}</h1>
-      <VideoDetail />
-      <LessonList
-        // currentLessonId={params.lessonId}
-        courseId={course.id}
-        items={course.lessons}
-      />
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "nowrap",
+          gap: 20,
+        }}
+      >
+        <div
+          style={{
+            flex: 1,
+          }}
+        >
+          <VideoDetail title={course.title} />
+        </div>
+
+        <div
+          style={{
+            maxWidth: 240,
+            width: "100%",
+          }}
+        >
+          <LessonList
+            // currentLessonId={params.lessonId}
+            courseId={course.id}
+            items={course.lessons}
+          />
+        </div>
+      </div>
     </div>
   );
 };

@@ -36,9 +36,25 @@ const LessonList = ({ courseId, items }: LessonListProps) => {
 
       {/* <div>Current lesson Id: {currentLessonId}</div> */}
       <div>Course Id: {courseId}</div>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 10,
+          border: "1px solid #aaa",
+          padding: 10,
+        }}
+      >
         {items.map((lesson) => (
-          <div key={lesson.id}>{lesson.title}</div>
+          <div
+            key={lesson.id}
+            style={{
+              border: "1px solid #aaa",
+              padding: 10,
+            }}
+          >
+            {lesson.title}
+          </div>
         ))}
       </div>
     </div>

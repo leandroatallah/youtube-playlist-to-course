@@ -27,5 +27,9 @@ export const getDataFromLocalStorage = (): Data => {
 };
 
 export const setDataToLocalStorage = (data: Data) => {
+  if (typeof window == undefined) {
+    return;
+  }
+
   window.localStorage.setItem(config.LOCAL_STORAGE_KEY, JSON.stringify(data));
 };
