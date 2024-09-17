@@ -40,3 +40,14 @@ export const updateCurrentLesson = (courseId: string, lessonId: string) => {
   const result = lessonRepository.setCurrentLesson(courseId, lessonId);
   return result;
 };
+
+export const exportCourses = () => {
+  const { status, ...data } = courseRepository.exportAll();
+
+  if (status === 400) {
+    // ...
+    return;
+  }
+
+  return new URLSearchParams({ data: JSON.stringify(data) });
+};

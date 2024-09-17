@@ -93,3 +93,24 @@ export const remove = (courseId: string) => {
     status: 202,
   };
 };
+
+export const exportAll = () => {
+  const data = getDataFromLocalStorage();
+
+  if (!data) {
+    return {
+      status: 400,
+    };
+  }
+
+  return {
+    status: 200,
+    data: data.courses.map((course) => ({
+      id: course.playlistId, // playlistId
+      curr: course.currentLessonId, // currentLessonId
+      prg: course.lessons // progress
+        .filter((lesson) => lesson.done)
+        .map((lesson) => lesson.id),
+    })),
+  };
+};
