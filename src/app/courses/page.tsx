@@ -1,13 +1,16 @@
 "use client";
 
+import { useRef, useState } from "react";
+
 import { exportCourses } from "@/services/course.crud";
 import styles from "../page.module.css";
 import CourseList from "@/components/CourseList";
-import { useRef, useState } from "react";
 import Modal from "@/components/Modal";
+import { useToast } from "@/context/ToastContext";
 
 export default function Courses() {
   const inputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
   const [exportUrl, setExportUrl] = useState<string>();
 
@@ -26,13 +29,12 @@ export default function Courses() {
 
   const handleOnCopyUrl = () => {
     if (!exportUrl) {
-      // ...
       return;
     }
     navigator.clipboard.writeText(exportUrl);
     inputRef.current?.select();
 
-    // ...
+    toast("A URL foi copiada com sucesso.");
   };
 
   return (

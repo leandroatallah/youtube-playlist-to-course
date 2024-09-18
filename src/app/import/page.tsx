@@ -1,27 +1,46 @@
 "use client";
 
 import Modal from "@/components/Modal";
+import { useToast } from "@/context/ToastContext";
 import { importCourses } from "@/services/course.crud";
 import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 const ImportPage = () => {
+  const { toast } = useToast();
+
+  const [disableAllButtons, setDisableAllButtons] = useState(false);
+
   const searchParams = useSearchParams();
   const data = searchParams.get("data");
 
   const handleConfirmImport = () => {
+    if (disableAllButtons) {
+      return;
+    }
+
     if (!data) {
       // ...
       return;
     }
+
+    setDisableAllButtons(true);
 
     const dataParsed = JSON.parse(data);
 
     const { status } = importCourses(dataParsed);
 
     if (status === 400) {
-      // ...
+      toast.error();
+      setDisableAllButtons(false);
       return;
     }
+
+    toast("Os cursos foram importados com sucesso.");
+
+    setTimeout(() => {
+      location.href = "/courses";
+    }, 2000);
   };
 
   const handleCancelImport = () => {
@@ -45,6 +64,7 @@ const ImportPage = () => {
         <button
           style={{ height: 40 }}
           type="button"
+          disabled={disableAllButtons}
           onClick={handleConfirmImport}
         >
           Apagar conteúdo atual e importar cursos
@@ -52,6 +72,7 @@ const ImportPage = () => {
         <button
           style={{ height: 40 }}
           type="button"
+          disabled={disableAllButtons}
           onClick={handleCancelImport}
         >
           cancelar

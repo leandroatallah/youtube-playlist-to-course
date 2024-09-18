@@ -13,9 +13,11 @@ import {
   setLessonAsDone,
   setLessonAsUndone,
 } from "@/repositories/lesson.repository";
+import { useToast } from "@/context/ToastContext";
 
 const CourseDetail = ({ params }: { params: { courseId: string } }) => {
   const router = useRouter();
+  const { toast } = useToast();
 
   const [course, setCourse] = useState<Course | null>();
 
@@ -47,14 +49,16 @@ const CourseDetail = ({ params }: { params: { courseId: string } }) => {
 
   const handleOnFinishLesson = (currentLesson: Lesson | null) => {
     if (!course || !currentLesson) {
-      // ...
+      toast.error();
       return;
     }
 
     if (currentLesson.done) {
       setLessonAsUndone(course.id, currentLesson.id);
+      toast("O curso foi marcado como pendente.");
     } else {
       setLessonAsDone(course.id, currentLesson.id);
+      toast("O curso foi marcado como concluído.");
     }
 
     fetchCourse();

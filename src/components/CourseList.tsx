@@ -7,9 +7,12 @@ import { getDataFromLocalStorage } from "@/database/localStorage";
 import { deleteCourse } from "@/services/course.crud";
 import { Course } from "@/models/course.model";
 import CourseItem from "./CourseItem";
+import { useToast } from "@/context/ToastContext";
 
 const CourseList = () => {
   const router = useRouter();
+  const { toast } = useToast();
+
   const [courses, setCourses] = useState<Course[]>([]);
 
   const fetchCourseList = () => {
@@ -20,7 +23,12 @@ const CourseList = () => {
   const handleRemoveCourse = (courseId: string) => {
     const result = deleteCourse(courseId);
 
+    if (result.status === 400) {
+      // ...
+    }
+
     if (result.status === 202) {
+      toast("O curso foi removido com sucesso.");
       fetchCourseList();
     }
   };
