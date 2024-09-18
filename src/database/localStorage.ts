@@ -26,6 +26,14 @@ export const getDataFromLocalStorage = (): Data => {
   return data ? (JSON.parse(data) as Data) : initialDataValue;
 };
 
+export const clearLocalStorage = () => {
+  if (typeof window == undefined) {
+    return;
+  }
+
+  window.localStorage.removeItem(config.LOCAL_STORAGE_KEY);
+};
+
 export const setDataToLocalStorage = (data: Data) => {
   if (typeof window == undefined) {
     return;
