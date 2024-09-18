@@ -1,8 +1,10 @@
 import {
+  clearLocalStorage,
   getDataFromLocalStorage,
   setDataToLocalStorage,
 } from "@/database/localStorage";
 import { Course, CoursePayload } from "@/models/course.model";
+import { fetchYoutubePlaylistAndItems } from "@/services/youtube-data-api";
 
 // const currentStorage = localStorageService;
 
@@ -112,5 +114,30 @@ export const exportAll = () => {
         .filter((lesson) => lesson.done)
         .map((lesson) => lesson.id),
     })),
+  };
+};
+
+export const importAll = async ({ data }: { data: unknown }) => {
+  const courseIdList: string[] = [];
+
+  data.forEach((course: unknown) => {
+    courseIdList.push({
+      id: course.id,
+    });
+  });
+
+  await Promise.all(
+    courseIdList.map((course) => fetchYoutubePlaylistAndItems(course.id)),
+  )
+    .then((result) => {
+      clearLocalStorage();
+      result.forEach((course) => create(course));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  return {
+    status: 201,
   };
 };

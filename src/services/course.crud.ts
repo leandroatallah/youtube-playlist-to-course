@@ -51,3 +51,14 @@ export const exportCourses = () => {
 
   return new URLSearchParams({ data: JSON.stringify(data) });
 };
+
+export const importCourses = (data: unknown) => {
+  const { status } = courseRepository.importAll(data);
+
+  if (status === 400) {
+    // ...
+    return { status };
+  }
+
+  return { status };
+};

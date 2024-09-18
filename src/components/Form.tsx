@@ -3,10 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import {
-  fetchPlaylistItems,
-  fetchYouTubePlaylist,
-} from "@/services/youtube-data-api";
+import { fetchYoutubePlaylistAndItems } from "@/services/youtube-data-api";
 import { isValidYouTubePlaylistURL } from "@/utils/validate-url";
 import { createCourse } from "@/services/course.crud";
 import { CoursePayload } from "@/models/course.model";
@@ -38,25 +35,8 @@ const Form = () => {
 
     setIsLoading(true);
 
-    const playlistData = await fetchYouTubePlaylist(playlistId);
-    const playlistItems = await fetchPlaylistItems(playlistId);
-
-    const { title, description, channelTitle, channelId, thumbnailUrl } =
-      playlistData;
-
-    const coursePayload: CoursePayload = {
-      title,
-      description,
-      channelTitle,
-      channelId,
-      thumbnailUrl,
-      playlistId,
-      lessons: playlistItems.map((item) => ({
-        title: item.title,
-        videoId: item.videoId,
-        thumbnailUrl: item.thumbnailUrl,
-      })),
-    };
+    const coursePayload: CoursePayload =
+      await fetchYoutubePlaylistAndItems(playlistId);
 
     const result = createCourse(coursePayload);
     if (result) {

@@ -47,7 +47,7 @@ const ImportPage = () => {
           type="button"
           onClick={handleConfirmImport}
         >
-          importar cursos
+          Apagar conteúdo atual e importar cursos
         </button>
         <button
           style={{ height: 40 }}

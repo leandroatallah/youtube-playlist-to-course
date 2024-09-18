@@ -1,4 +1,5 @@
 import { YOUTUBE_DATA_API_V3_KEY as API_KEY } from "@/constants/config";
+import { CoursePayload } from "@/models/course.model";
 
 const BASE_URL = "https://www.googleapis.com/youtube/v3";
 
@@ -67,7 +68,7 @@ export const fetchPlaylistItems = async (playlistId: string) => {
   const data = (await response.json()) as youtubePlaylistItemsResponse;
 
   if (!data?.items?.length) {
-    return []
+    return [];
   }
 
   return data.items.map((item) => ({
@@ -75,4 +76,30 @@ export const fetchPlaylistItems = async (playlistId: string) => {
     videoId: item.snippet.resourceId.videoId,
     thumbnailUrl: item.snippet.thumbnails.default.url,
   }));
+};
+
+export const fetchYoutubePlaylistAndItems = async (playlistId: string) => {
+  const playlistData = await fetchYouTubePlaylist(playlistId);
+  const playlistItems = await fetchPlaylistItems(playlistId);
+
+  const { title, description, channelTitle, channelId, thumbnailUrl } =
+    playlistData;
+
+  const coursePayload: CoursePayload = {
+    title,
+    description,
+    channelTitle,
+    channelId,
+    thumbnailUrl,
+    playlistId,
+    currentLessonId: null,
+    lessons: playlistItems.map((item) => ({
+      title: item.title,
+      videoId: item.videoId,
+      thumbnailUrl: item.thumbnailUrl,
+      done: false,
+    })),
+  };
+
+  return coursePayload;
 };
