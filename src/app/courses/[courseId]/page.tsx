@@ -5,8 +5,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Course } from "@/models/course.model";
 import VideoDetail from "@/components/VideoDetail";
 import LessonList from "@/components/LessonList";
-import { useRouter } from "next/navigation";
-import Logo from "@/components/Logo";
 import { getCourseById, updateCurrentLesson } from "@/services/course.crud";
 import { Lesson } from "@/models/lesson.model";
 import {
@@ -16,7 +14,6 @@ import {
 import { useToast } from "@/context/ToastContext";
 
 const CourseDetail = ({ params }: { params: { courseId: string } }) => {
-  const router = useRouter();
   const { toast } = useToast();
 
   const [course, setCourse] = useState<Course | null>();
@@ -69,44 +66,7 @@ const CourseDetail = ({ params }: { params: { courseId: string } }) => {
   }
 
   return (
-    <div
-      style={{
-        maxWidth: 1024,
-        margin: "0 auto",
-        padding: "0 10px",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyItems: "space-between",
-          alignItems: "center",
-          padding: "20px 0",
-        }}
-      >
-        <div
-          style={{
-            flex: 1,
-          }}
-        >
-          <Logo />
-        </div>
-        <button
-          type="button"
-          style={{
-            padding: 0,
-            border: 0,
-            background: "unset",
-            fontSize: 14,
-            fontWeight: 700,
-            cursor: "pointer",
-          }}
-          onClick={() => router.push("/courses")}
-        >
-          Meus cursos
-        </button>
-      </div>
+    <div>
       <h1
         style={{
           marginTop: 20,

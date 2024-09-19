@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+
 import Modal from "@/components/Modal";
 import { useToast } from "@/context/ToastContext";
 import { importCourses } from "@/services/course.crud";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Button } from "@/components/Button";
 
 const ImportPage = () => {
   const { toast } = useToast();
@@ -61,22 +63,12 @@ const ImportPage = () => {
         >
           Ao confirmar seu progresso atual será sobrescrito.
         </div>
-        <button
-          style={{ height: 40 }}
-          type="button"
-          disabled={disableAllButtons}
-          onClick={handleConfirmImport}
-        >
+        <Button disabled={disableAllButtons} onClick={handleConfirmImport}>
           Apagar conteúdo atual e importar cursos
-        </button>
-        <button
-          style={{ height: 40 }}
-          type="button"
-          disabled={disableAllButtons}
-          onClick={handleCancelImport}
-        >
+        </Button>
+        <Button disabled={disableAllButtons} onClick={handleCancelImport}>
           cancelar
-        </button>
+        </Button>
       </Modal>
     </div>
   );

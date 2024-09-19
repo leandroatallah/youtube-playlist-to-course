@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 
 import { Course } from "@/models/course.model";
+import { Button } from "./Button";
 
 type CourseItemProp = {
   data: Course;
@@ -48,15 +49,18 @@ const CourseItem = ({ data, onDeleteCourse }: CourseItemProp) => {
         {data.title}
       </div>
       <div>
-        <button
-          style={{
-            cursor: "pointer",
-          }}
+        <Button
           type="button"
+          style={{
+            padding: 4,
+            fontSize: 12,
+            height: "auto",
+          }}
+          variant="outline"
           onClick={onDeleteCourse}
         >
           Remove
-        </button>
+        </Button>
       </div>
     </div>
   );

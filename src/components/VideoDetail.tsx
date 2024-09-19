@@ -2,6 +2,7 @@ import { useMemo } from "react";
 
 import { Course } from "@/models/course.model";
 import { Lesson } from "@/models/lesson.model";
+import { Button } from "./Button";
 
 type VideoDetailProps = {
   course: Course;
@@ -60,35 +61,21 @@ const VideoDetail = ({ course, onFinish }: VideoDetailProps) => {
             gap: 10,
           }}
         >
-          <button
-            type="button"
+          <Button
             onClick={() =>
               window.open(
                 `https://www.youtube.com/watch?v=${currentLesson?.videoId}`,
                 "_blank",
               )
             }
-            style={{
-              whiteSpace: "nowrap",
-              padding: "0 10px",
-              cursor: "pointer",
-            }}
           >
             ver no youtube
-          </button>
-          <button
-            type="button"
-            onClick={() => onFinish(currentLesson || null)}
-            style={{
-              whiteSpace: "nowrap",
-              padding: "0 10px",
-              cursor: "pointer",
-            }}
-          >
+          </Button>
+          <Button onClick={() => onFinish(currentLesson || null)}>
             {currentLesson?.done
               ? "Marcar como pendente"
               : "Marcar como concluído"}
-          </button>
+          </Button>
         </div>
       </div>
     </div>
