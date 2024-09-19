@@ -1,5 +1,6 @@
 import { Course } from "@/models/course.model";
 import { Lesson } from "@/models/lesson.model";
+import { getProgress } from "@/utils/get-pregress";
 import { useMemo } from "react";
 
 type LessonListProps = {
@@ -15,12 +16,7 @@ const LessonList = ({
   currentLessonId,
   onSelectLesson,
 }: LessonListProps) => {
-  const progress = useMemo(() => {
-    const count = course.lessons.length;
-    const doneCount = course.lessons.filter((lesson) => lesson.done).length;
-
-    return (doneCount / count) * 100;
-  }, [course.lessons]);
+  const progress = useMemo(() => getProgress(course.lessons), [course.lessons]);
 
   return (
     <div
