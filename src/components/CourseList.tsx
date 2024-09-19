@@ -56,13 +56,22 @@ const CourseList = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: 20,
+        gap: 30,
         maxWidth: 520,
         margin: "0 auto",
+        backgroundColor: "#1a1a1a",
+        padding: 20,
+        borderRadius: 4,
       }}
     >
       {hasCourses ? (
-        <div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 24,
+          }}
+        >
           {courses.map((course) => (
             <CourseItem
               key={course.id}
@@ -85,18 +94,20 @@ const CourseList = () => {
       <div
         style={{
           display: "flex",
-          gap: 20,
+          gap: 10,
         }}
       >
-        <Button onClick={() => router.push("/")}>+ adicionar curso</Button>
+        <Button
+          style={{
+            flex: 1,
+          }}
+          onClick={() => router.push("/")}
+        >
+          + adicionar curso
+        </Button>
         {hasCourses && (
           <div>
-            <Button
-              style={{
-                width: "100%",
-              }}
-              onClick={handleExportCourses}
-            >
+            <Button variant="outline" onClick={handleExportCourses}>
               Exportar
             </Button>
           </div>

@@ -12,6 +12,7 @@ import {
   setLessonAsUndone,
 } from "@/repositories/lesson.repository";
 import { useToast } from "@/context/ToastContext";
+import { Header } from "@/components/Header";
 
 const CourseDetail = ({ params }: { params: { courseId: string } }) => {
   const { toast } = useToast();
@@ -67,6 +68,7 @@ const CourseDetail = ({ params }: { params: { courseId: string } }) => {
 
   return (
     <div>
+      <Header />
       <h1
         style={{
           marginTop: 20,

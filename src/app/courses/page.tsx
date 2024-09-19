@@ -10,7 +10,7 @@ export default function Courses() {
         <div
           style={{
             maxWidth: 520,
-            margin: "0 auto",
+            margin: "40px auto",
           }}
         >
           <CourseList />
