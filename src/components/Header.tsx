@@ -21,7 +21,15 @@ export const Header = () => {
           flex: hasCourses ? 1 : "unset",
         }}
       >
-        <Logo />
+        <Logo
+          style={{
+            display: "inline-block",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            location.href = "/";
+          }}
+        />
       </div>
       {hasCourses && (
         <button
