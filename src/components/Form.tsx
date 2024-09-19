@@ -7,8 +7,9 @@ import { fetchYoutubePlaylistAndItems } from "@/services/youtube-data-api";
 import { isValidYouTubePlaylistURL } from "@/utils/validate-url";
 import { createCourse } from "@/services/course.crud";
 import { CoursePayload } from "@/models/course.model";
+import { Button } from "./Button";
 
-const Form = () => {
+export const Form = () => {
   const router = useRouter();
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -47,22 +48,35 @@ const Form = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
+      }}
+    >
       <input
         value={inputValue}
         type="url"
         placeholder="Cole uma URL de uma playlist do Youtube"
         onInput={handleOnInput}
+        style={{
+          height: 48,
+          border: "2px solid var(--primary)",
+          borderRadius: 4,
+          padding: "0 10px",
+        }}
       />
-      <button
-        type="button"
+      <Button
         disabled={isButtonDisabled}
         onClick={handleOnSubmit}
+        style={{
+          height: 48,
+          fontSize: 16,
+        }}
       >
         {isLoading ? "Carregando" : "Criar curso"}
-      </button>
+      </Button>
     </div>
   );
 };
-
-export default Form;

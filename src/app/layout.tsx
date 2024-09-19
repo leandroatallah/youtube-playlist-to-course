@@ -28,7 +28,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ToastProvider>
-          {children}
+          <div
+            style={{
+              maxWidth: 768,
+              margin: "0 auto",
+              padding: "0 10px",
+            }}
+          >
+            {children}
+          </div>
           <ToastStack />
         </ToastProvider>
       </body>
