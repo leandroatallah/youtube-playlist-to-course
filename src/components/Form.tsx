@@ -1,16 +1,18 @@
-"use client";
-
 import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 
 import { fetchYoutubePlaylistAndItems } from "@/services/youtube-data-api";
 import { isValidYouTubePlaylistURL } from "@/utils/validate-url";
 import { createCourse } from "@/services/course.crud";
 import { CoursePayload } from "@/models/course.model";
+import { useToast } from "@/context/ToastContext";
+
 import { Button } from "./Button";
 
-export const Form = () => {
-  const router = useRouter();
+type FormProps = { onSuccess: () => void };
+
+export const Form = ({ onSuccess }: FormProps) => {
+  const { toast } = useToast();
+
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,15 +38,28 @@ export const Form = () => {
 
     setIsLoading(true);
 
-    const coursePayload: CoursePayload =
-      await fetchYoutubePlaylistAndItems(playlistId);
+    const coursePayload = await fetchYoutubePlaylistAndItems(playlistId);
 
-    const result = createCourse(coursePayload);
-    if (result) {
-      router.push("/courses");
+    if (!coursePayload) {
+      setIsLoading(false);
+      toast.error();
+      return;
     }
 
-    setIsLoading(false);
+    const result = createCourse(coursePayload);
+    if (result.status === 409) {
+      setIsLoading(false);
+      toast.error("Este curso já está em seu catálogo.");
+      return;
+    }
+
+    if (result.status === 400) {
+      setIsLoading(false);
+      toast.error();
+      return;
+    }
+
+    onSuccess();
   };
 
   return (

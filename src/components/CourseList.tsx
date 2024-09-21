@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
 import { getDataFromLocalStorage } from "@/database/localStorage";
 import { deleteCourse, exportCourses } from "@/services/course.crud";
@@ -11,12 +10,13 @@ import { useToast } from "@/context/ToastContext";
 import CourseItem from "./CourseItem";
 import { Button } from "./Button";
 import { ModalExport } from "./ModalExport";
+import { ModalAddCourse } from "./ModalAddCourse";
 
 const CourseList = () => {
-  const router = useRouter();
   const { toast } = useToast();
 
   const [exportUrl, setExportUrl] = useState<string>();
+  const [showAddCourseModal, setShowAddCourseModal] = useState(false);
   const [courses, setCourses] = useState<Course[]>([]);
   const hasCourses = !!courses.length;
 
@@ -38,13 +38,8 @@ const CourseList = () => {
     }
   };
 
-  const handleExportCourses = () => {
-    const data = exportCourses();
-
-    if (data) {
-      const baseUrl = window.location.origin;
-      setExportUrl(`${baseUrl}/import?${data}`);
-    }
+  const handleAddCourses = () => {
+    setShowAddCourseModal(true);
   };
 
   useEffect(() => {
@@ -57,11 +52,10 @@ const CourseList = () => {
         display: "flex",
         flexDirection: "column",
         gap: 30,
-        maxWidth: 520,
-        margin: "0 auto",
         backgroundColor: "#1a1a1a",
         padding: 20,
         borderRadius: 4,
+        minHeight: "40vh",
       }}
     >
       {hasCourses ? (
@@ -70,6 +64,7 @@ const CourseList = () => {
             display: "flex",
             flexDirection: "column",
             gap: 24,
+            flex: 1,
           }}
         >
           {courses.map((course) => (
@@ -101,19 +96,30 @@ const CourseList = () => {
           style={{
             flex: 1,
           }}
-          onClick={() => router.push("/")}
+          onClick={handleAddCourses}
         >
           + adicionar curso
         </Button>
         {hasCourses && (
           <div>
-            <Button variant="outline" onClick={handleExportCourses}>
+            <Button
+              variant="outline"
+              onClick={() => setShowAddCourseModal(true)}
+            >
               Exportar
             </Button>
           </div>
         )}
       </div>
       {!!exportUrl && <ModalExport url={exportUrl} setUrl={setExportUrl} />}
+      {showAddCourseModal && (
+        <ModalAddCourse
+          onClose={() => {
+            fetchCourseList();
+            setShowAddCourseModal(false);
+          }}
+        />
+      )}
     </div>
   );
 };

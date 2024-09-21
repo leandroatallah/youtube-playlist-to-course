@@ -7,14 +7,7 @@ export default function Courses() {
     <div className={globalStyles.page}>
       <main className={globalStyles.container}>
         <Header />
-        <div
-          style={{
-            maxWidth: 520,
-            margin: "40px auto",
-          }}
-        >
-          <CourseList />
-        </div>
+        <CourseList />
       </main>
     </div>
   );

@@ -1,9 +1,21 @@
 "use client";
 
+import { ReactNode } from "react";
+
 import { getAllCourses } from "@/services/course.crud";
 import Logo from "./Logo";
 
-export const Header = () => {
+type HeaderProps = {
+  headerTitle?: ReactNode;
+  hideNav?: boolean;
+  disableLogoLink?: boolean;
+};
+
+export const Header = ({
+  headerTitle,
+  hideNav,
+  disableLogoLink,
+}: HeaderProps) => {
   const hasCourses = !!getAllCourses()?.length;
 
   return (
@@ -13,25 +25,30 @@ export const Header = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        padding: "20px 0",
+        gap: 20,
+        padding: "0 20px",
+        height: 80,
       }}
     >
+      {!!headerTitle && headerTitle}
       <div
         style={{
-          flex: hasCourses ? 1 : "unset",
+          flex: hasCourses && !headerTitle ? 1 : "unset",
         }}
       >
         <Logo
           style={{
             display: "inline-block",
-            cursor: "pointer",
+            cursor: !disableLogoLink ? "pointer" : "default",
           }}
           onClick={() => {
-            location.href = "/";
+            if (!disableLogoLink) {
+              location.href = "/";
+            }
           }}
         />
       </div>
-      {hasCourses && (
+      {!hideNav && hasCourses && (
         <button
           type="button"
           style={{

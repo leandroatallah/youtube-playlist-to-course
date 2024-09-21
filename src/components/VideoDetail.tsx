@@ -17,20 +17,21 @@ const VideoDetail = ({ course, onFinish }: VideoDetailProps) => {
   }, [course.currentLessonId, course.lessons]);
 
   return (
-    <div>
-      {" "}
+    <div style={{ height: "100%" }}>
       <div
         style={{
-          overflow: "hidden",
-          paddingBottom: "56.25%",
+          // overflow: "hidden",
+          // paddingBottom: "56.25%",
           position: "relative",
-          height: 0,
+          width: "100%",
+          height: "100%",
         }}
       >
         <iframe
           width="853"
           height="480"
-          src={`https://www.youtube.com/embed/${currentLesson?.videoId}`}
+          src={`https://www.youtube.com/embed/${currentLesson?.videoId}?autoplay=1&loop=0&controls=1&modestbranding=0&rel=0&playsinline=1&ena
+blejsapi=1`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           title="Embedded youtube"
@@ -44,38 +45,46 @@ const VideoDetail = ({ course, onFinish }: VideoDetailProps) => {
           }}
         />
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyItems: "space-between",
-          gap: 10,
-          marginTop: 15,
-          fontSize: 21,
-          fontWeight: 700,
-        }}
-      >
-        <div>{currentLesson?.title}</div>
+      <div style={{ padding: 20 }}>
         <div
           style={{
             display: "flex",
+            justifyItems: "space-between",
             gap: 10,
+            fontSize: 21,
+            fontWeight: 700,
           }}
         >
-          <Button
-            onClick={() =>
-              window.open(
-                `https://www.youtube.com/watch?v=${currentLesson?.videoId}`,
-                "_blank",
-              )
-            }
+          <div
+            style={{
+              flex: 1,
+            }}
           >
-            ver no youtube
-          </Button>
-          <Button onClick={() => onFinish(currentLesson || null)}>
-            {currentLesson?.done
-              ? "Marcar como pendente"
-              : "Marcar como concluído"}
-          </Button>
+            {currentLesson?.title}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: 10,
+            }}
+          >
+            <Button
+              variant="outline"
+              onClick={() =>
+                window.open(
+                  `https://www.youtube.com/watch?v=${currentLesson?.videoId}`,
+                  "_blank",
+                )
+              }
+            >
+              ver no youtube
+            </Button>
+            <Button onClick={() => onFinish(currentLesson || null)}>
+              {currentLesson?.done
+                ? "Marcar como pendente"
+                : "Marcar como concluído"}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

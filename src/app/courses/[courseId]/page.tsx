@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 
 import { Course } from "@/models/course.model";
 import VideoDetail from "@/components/VideoDetail";
@@ -19,13 +19,88 @@ const CourseDetail = ({ params }: { params: { courseId: string } }) => {
 
   const [course, setCourse] = useState<Course | null>();
 
+  const currentLesson = course?.lessons.find(
+    (lesson) => lesson.id === course.currentLessonId,
+  );
+
   const fetchCourse = useCallback(() => {
     setCourse(getCourseById(params.courseId));
   }, [params.courseId]);
 
+  useLayoutEffect(() => {
+    // document.body.style.overflow = "hidden";
+  }, []);
+
   useEffect(() => {
     fetchCourse();
   }, [fetchCourse]);
+
+  const CustomCourseTitle = useCallback(() => {
+    return (
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          gap: 20,
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            width: 40,
+            height: 40,
+            backgroundColor: "#FAFAFA",
+            borderRadius: 40,
+            color: "#444",
+            display: "inline-flex",
+            justifyContent: "center",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            location.href = "/courses";
+          }}
+        >
+          <svg
+            stroke="currentColor"
+            fill="currentColor"
+            strokeWidth="0"
+            viewBox="0 0 256 512"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{
+              width: 12,
+              marginLeft: -3,
+            }}
+          >
+            <path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path>
+          </svg>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 6,
+          }}
+        >
+          <div
+            style={{
+              fontSize: 24,
+              fontWeight: 700,
+            }}
+          >
+            {course?.title}
+          </div>
+          <div
+            style={{
+              fontSize: 14,
+            }}
+          >
+            {currentLesson?.title}
+          </div>
+        </div>
+      </div>
+    );
+  }, [course?.title, currentLesson?.title]);
 
   const handleOnSelectLesson = useCallback(
     (lessonId: string) => {
@@ -67,43 +142,49 @@ const CourseDetail = ({ params }: { params: { courseId: string } }) => {
   }
 
   return (
-    <div>
-      <Header />
-      <h1
-        style={{
-          marginTop: 20,
-          marginBottom: 20,
-          fontSize: 32,
-        }}
-      >
-        {course?.title}
-      </h1>
+    <div
+      style={{
+        height: "100vh",
+      }}
+    >
       <div
+        className="full-width"
         style={{
+          height: "100%",
+          overflow: "hidden",
           display: "flex",
-          flexWrap: "nowrap",
-          gap: 20,
+          flexDirection: "column",
         }}
       >
+        <Header headerTitle={<CustomCourseTitle />} hideNav />
         <div
           style={{
-            width: "calc(100% - 280px)",
+            display: "flex",
+            flexWrap: "nowrap",
+            borderTop: "2px solid #777",
+            height: "calc(100% - 80px)",
           }}
         >
-          <VideoDetail course={course} onFinish={handleOnFinishLesson} />
-        </div>
+          <div
+            style={{
+              width: "calc(100% - 380px)",
+            }}
+          >
+            <VideoDetail course={course} onFinish={handleOnFinishLesson} />
+          </div>
 
-        <div
-          style={{
-            width: 280,
-          }}
-        >
-          <LessonList
-            currentLessonId={course.currentLessonId}
-            course={course}
-            items={course.lessons}
-            onSelectLesson={(lessonId) => handleOnSelectLesson(lessonId)}
-          />
+          <div
+            style={{
+              width: 380,
+            }}
+          >
+            <LessonList
+              currentLessonId={course.currentLessonId}
+              course={course}
+              items={course.lessons}
+              onSelectLesson={(lessonId) => handleOnSelectLesson(lessonId)}
+            />
+          </div>
         </div>
       </div>
     </div>

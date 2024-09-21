@@ -1,7 +1,8 @@
+import { useMemo } from "react";
+
 import { Course } from "@/models/course.model";
 import { Lesson } from "@/models/lesson.model";
 import { getProgress } from "@/utils/get-pregress";
-import { useMemo } from "react";
 
 type LessonListProps = {
   course: Course;
@@ -21,9 +22,10 @@ const LessonList = ({
   return (
     <div
       style={{
-        border: "1px solid #aaa",
-        borderRadius: 4,
-        padding: 10,
+        borderLeft: "2px solid #777",
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
       }}
     >
       <div
@@ -32,7 +34,8 @@ const LessonList = ({
           alignItems: "center",
           justifyItems: "space-between",
           gap: 10,
-          padding: "10px 0 20px",
+          backgroundColor: "#1A1A1A",
+          padding: 20,
         }}
       >
         <div
@@ -42,61 +45,67 @@ const LessonList = ({
             fontWeight: 700,
           }}
         >
-          {course.title}
+          Aulas
         </div>
         <div
           style={{
             fontSize: 14,
           }}
         >
-          {progress.toFixed(2)}%
+          {progress.toFixed(0)}%
         </div>
       </div>
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 10,
+          flex: 1,
+          overflow: "auto",
         }}
       >
-        {items.map((lesson) => {
-          const isCurrent = lesson.id === currentLessonId;
-          return (
-            <div
-              key={lesson.id}
-              onClick={() => onSelectLesson(lesson.id)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                border: "1px solid #aaa",
-                borderRadius: 4,
-                padding: 10,
-                fontSize: 12,
-                cursor: "pointer",
-                backgroundColor: isCurrent
-                  ? "rgba(125, 125, 125, 0.5)"
-                  : "unset",
-              }}
-            >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            paddingBottom: 24,
+          }}
+        >
+          {items.map((lesson) => {
+            const isCurrent = lesson.id === currentLessonId;
+            return (
               <div
+                key={lesson.id}
+                onClick={() => onSelectLesson(lesson.id)}
                 style={{
-                  border: "1px solid #777",
-                  borderRadius: 2,
-                  backgroundColor: lesson.done ? "#999" : "unset",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 20,
+                  padding: "14px 10px 14px 20px",
+                  fontSize: 14,
+                  cursor: "pointer",
+                  backgroundColor: isCurrent ? "var(--primary)" : "unset",
                 }}
               >
                 <div
                   style={{
-                    width: 12,
-                    height: 12,
+                    borderWidth: 1,
+                    borderStyle: "solid",
+                    borderColor: isCurrent ? "#fff" : "777",
+                    borderRadius: 2,
+                    backgroundColor: lesson.done ? "#999" : "unset",
                   }}
-                ></div>
+                >
+                  <div
+                    style={{
+                      width: 12,
+                      height: 12,
+                    }}
+                  ></div>
+                </div>
+                {lesson.title}
               </div>
-              {lesson.title}
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

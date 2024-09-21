@@ -78,28 +78,34 @@ export const fetchPlaylistItems = async (playlistId: string) => {
   }));
 };
 
-export const fetchYoutubePlaylistAndItems = async (playlistId: string) => {
-  const playlistData = await fetchYouTubePlaylist(playlistId);
-  const playlistItems = await fetchPlaylistItems(playlistId);
+export const fetchYoutubePlaylistAndItems = async (
+  playlistId: string,
+): Promise<CoursePayload | null> => {
+  try {
+    const playlistData = await fetchYouTubePlaylist(playlistId);
+    const playlistItems = await fetchPlaylistItems(playlistId);
 
-  const { title, description, channelTitle, channelId, thumbnailUrl } =
-    playlistData;
+    const { title, description, channelTitle, channelId, thumbnailUrl } =
+      playlistData;
 
-  const coursePayload: CoursePayload = {
-    title,
-    description,
-    channelTitle,
-    channelId,
-    thumbnailUrl,
-    playlistId,
-    currentLessonId: null,
-    lessons: playlistItems.map((item) => ({
-      title: item.title,
-      videoId: item.videoId,
-      thumbnailUrl: item.thumbnailUrl,
-      done: false,
-    })),
-  };
+    const coursePayload: CoursePayload = {
+      title,
+      description,
+      channelTitle,
+      channelId,
+      thumbnailUrl,
+      playlistId,
+      currentLessonId: null,
+      lessons: playlistItems.map((item) => ({
+        title: item.title,
+        videoId: item.videoId,
+        thumbnailUrl: item.thumbnailUrl,
+        done: false,
+      })),
+    };
 
-  return coursePayload;
+    return coursePayload;
+  } catch (e) {
+    return null;
+  }
 };

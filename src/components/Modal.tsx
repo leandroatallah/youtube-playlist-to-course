@@ -33,6 +33,7 @@ const Modal = ({ children, title, onClose }: ModalProps) => {
           display: "flex",
           flexDirection: "column",
           gap: 20,
+          fontSize: 14,
         }}
       >
         {!!onClose && (

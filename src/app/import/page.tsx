@@ -40,9 +40,9 @@ const ImportPage = () => {
 
     toast("Os cursos foram importados com sucesso.");
 
-    setTimeout(() => {
-      location.href = "/courses";
-    }, 2000);
+    // setTimeout(() => {
+    //   location.href = "/courses";
+    // }, 2000);
   };
 
   const handleCancelImport = () => {
@@ -66,7 +66,11 @@ const ImportPage = () => {
         <Button disabled={disableAllButtons} onClick={handleConfirmImport}>
           Apagar conteúdo atual e importar cursos
         </Button>
-        <Button disabled={disableAllButtons} onClick={handleCancelImport}>
+        <Button
+          variant="outline"
+          disabled={disableAllButtons}
+          onClick={handleCancelImport}
+        >
           cancelar
         </Button>
       </Modal>

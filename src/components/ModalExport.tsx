@@ -28,11 +28,7 @@ export const ModalExport = ({ url, setUrl }: ModalExportProps) => {
 
   return (
     <Modal title="Exportar progresso atual" onClose={handleOnCloseExportModal}>
-      <div
-        style={{
-          fontSize: 14,
-        }}
-      >
+      <div>
         Copie a URL abaixo e cole em outro navegador para copiar seu progresso
         atual.
       </div>

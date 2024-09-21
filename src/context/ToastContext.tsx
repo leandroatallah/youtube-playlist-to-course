@@ -37,8 +37,8 @@ export const useToast = () => {
     });
   };
 
-  toast.error = () => {
-    toast("Houve um erro. Tente novamente mais tarde.");
+  toast.error = (text?: string) => {
+    toast(text || "Houve um erro. Tente novamente mais tarde.");
   };
 
   const removeToast = (id: string) => {

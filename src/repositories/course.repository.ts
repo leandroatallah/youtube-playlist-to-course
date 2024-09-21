@@ -12,6 +12,14 @@ type CreateStatus = {
   status: 201 | 400 | 409;
 };
 
+export type ImportData = {
+  data: {
+    curr: string;
+    id: string;
+    prg: string[];
+  }[];
+};
+
 export const getById = (courseId: string): Course | undefined => {
   const data = getDataFromLocalStorage();
 
@@ -117,10 +125,10 @@ export const exportAll = () => {
   };
 };
 
-export const importAll = async ({ data }: { data: unknown }) => {
+export const importAll = async ({ data }: ImportData) => {
   const courseIdList: string[] = [];
 
-  data.forEach((course: unknown) => {
+  data.forEach((course) => {
     courseIdList.push({
       id: course.id,
     });
