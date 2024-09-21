@@ -6,9 +6,10 @@ export const isValidYouTubePlaylistURL = (value: string) => {
       return false;
     }
 
-    if (url.pathname !== "/playlist") {
-      return false;
-    }
+    // // Accept only playlist url
+    // if (url.pathname !== "/playlist") {
+    //   return false;
+    // }
 
     return url.searchParams.has("list");
   } catch (err) {
