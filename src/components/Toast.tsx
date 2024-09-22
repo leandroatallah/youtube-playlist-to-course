@@ -59,8 +59,10 @@ const ToastItem = ({ text, onDestroy }: ToastItemProps) => {
           display: "flex",
           alignItems: "center",
           padding: 10,
-          height: 48,
-          background: "#456598",
+          borderRadius: 2,
+          height: 52,
+          background: "var(--primary)",
+          color: "#fff",
           fontSize: 14,
         }}
       >
@@ -71,8 +73,9 @@ const ToastItem = ({ text, onDestroy }: ToastItemProps) => {
             bottom: 0,
             left: 0,
             width: "100%",
-            backgroundColor: "#ff2222",
-            height: 4,
+            backgroundColor: "#000",
+            opacity: 0.5,
+            height: 6,
             transition: `${TOAST_DURATION / 1000}s all ease-in-out`,
           }}
         />
