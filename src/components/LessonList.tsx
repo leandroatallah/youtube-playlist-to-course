@@ -9,6 +9,7 @@ type LessonListProps = {
   items: Lesson[];
   currentLessonId: string;
   onSelectLesson: (lessonId: string) => void;
+  toggleLessonStatus: (lesson: Lesson) => void;
 };
 
 const LessonList = ({
@@ -16,6 +17,7 @@ const LessonList = ({
   items,
   currentLessonId,
   onSelectLesson,
+  toggleLessonStatus,
 }: LessonListProps) => {
   const progress = useMemo(() => getProgress(course.lessons), [course.lessons]);
 
@@ -92,6 +94,12 @@ const LessonList = ({
                     borderColor: isCurrent ? "#fff" : "777",
                     borderRadius: 2,
                     backgroundColor: lesson.done ? "#999" : "unset",
+                    zIndex: 10,
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    toggleLessonStatus(lesson);
                   }}
                 >
                   <div

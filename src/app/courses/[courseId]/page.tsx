@@ -183,6 +183,7 @@ const CourseDetail = ({ params }: { params: { courseId: string } }) => {
               course={course}
               items={course.lessons}
               onSelectLesson={(lessonId) => handleOnSelectLesson(lessonId)}
+              toggleLessonStatus={(lesson) => handleOnFinishLesson(lesson)}
             />
           </div>
         </div>

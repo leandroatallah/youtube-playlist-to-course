@@ -17,7 +17,7 @@ const VideoDetail = ({ course, onFinish }: VideoDetailProps) => {
   }, [course.currentLessonId, course.lessons]);
 
   return (
-    <div style={{ height: "100%" }}>
+    <div style={{ height: "calc(100% - 80px)" }}>
       <div
         style={{
           // overflow: "hidden",
@@ -45,27 +45,30 @@ blejsapi=1`}
           }}
         />
       </div>
-      <div style={{ padding: 20 }}>
+      <div style={{ padding: "0 20px" }}>
         <div
           style={{
             display: "flex",
-            justifyItems: "space-between",
+            justifyContent: "end",
+            alignItems: "center",
+            height: 80,
             gap: 10,
             fontSize: 21,
             fontWeight: 700,
           }}
         >
-          <div
-            style={{
-              flex: 1,
-            }}
-          >
-            {currentLesson?.title}
-          </div>
+          {/* <div */}
+          {/*   style={{ */}
+          {/*     flex: 1, */}
+          {/*   }} */}
+          {/* > */}
+          {/*   {currentLesson?.title} */}
+          {/* </div> */}
           <div
             style={{
               display: "flex",
               gap: 10,
+              alignItems: "center",
             }}
           >
             <Button

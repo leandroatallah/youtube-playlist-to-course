@@ -76,7 +76,6 @@ const updateLessonStatus = (
 
       return {
         ...course,
-        currentLessonId: lessonId,
         lessons,
       };
     }),
