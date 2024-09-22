@@ -3,7 +3,6 @@ import { FormEvent, useState } from "react";
 import { fetchYoutubePlaylistAndItems } from "@/services/youtube-data-api";
 import { isValidYouTubePlaylistURL } from "@/utils/validate-url";
 import { createCourse } from "@/services/course.crud";
-import { CoursePayload } from "@/models/course.model";
 import { useToast } from "@/context/ToastContext";
 
 import { Button } from "./Button";

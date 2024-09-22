@@ -8,6 +8,7 @@ export default function Courses() {
       <main className={globalStyles.container}>
         <Header />
         <CourseList />
+        <div style={{ height: 20 }} />
       </main>
     </div>
   );

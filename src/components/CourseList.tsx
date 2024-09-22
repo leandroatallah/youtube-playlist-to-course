@@ -42,6 +42,15 @@ const CourseList = () => {
     setShowAddCourseModal(true);
   };
 
+  const handleExportCourses = () => {
+    const data = exportCourses();
+
+    if (data) {
+      const baseUrl = window.location.origin;
+      setExportUrl(`${baseUrl}/import?${data}`);
+    }
+  };
+
   useEffect(() => {
     fetchCourseList();
   }, []);
@@ -51,29 +60,56 @@ const CourseList = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: 30,
+        gap: 20,
         backgroundColor: "#1a1a1a",
         padding: 20,
         borderRadius: 4,
-        minHeight: "40vh",
+        height: "calc(100% - 80px - 20px)",
       }}
     >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "end",
+          gap: 14,
+        }}
+      >
+        <Button onClick={handleAddCourses}>+ adicionar curso</Button>
+        {hasCourses && (
+          <div>
+            <Button variant="outline" onClick={handleExportCourses}>
+              Exportar
+            </Button>
+          </div>
+        )}
+      </div>
       {hasCourses ? (
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 24,
-            flex: 1,
+            overflowX: "auto",
+            height: "100%",
+            padding: 20,
+            paddingTop: 30,
+            backgroundColor: "#141414",
+            borderRadius: 6,
           }}
         >
-          {courses.map((course) => (
-            <CourseItem
-              key={course.id}
-              data={course}
-              onDeleteCourse={() => handleRemoveCourse(course.id)}
-            />
-          ))}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 24,
+              flex: 1,
+            }}
+          >
+            {courses.map((course) => (
+              <CourseItem
+                key={course.id}
+                data={course}
+                onDeleteCourse={() => handleRemoveCourse(course.id)}
+              />
+            ))}
+          </div>
         </div>
       ) : (
         <div
@@ -86,31 +122,6 @@ const CourseList = () => {
           Não há cursos cadastrados.
         </div>
       )}
-      <div
-        style={{
-          display: "flex",
-          gap: 10,
-        }}
-      >
-        <Button
-          style={{
-            flex: 1,
-          }}
-          onClick={handleAddCourses}
-        >
-          + adicionar curso
-        </Button>
-        {hasCourses && (
-          <div>
-            <Button
-              variant="outline"
-              onClick={() => setShowAddCourseModal(true)}
-            >
-              Exportar
-            </Button>
-          </div>
-        )}
-      </div>
       {!!exportUrl && <ModalExport url={exportUrl} setUrl={setExportUrl} />}
       {showAddCourseModal && (
         <ModalAddCourse
