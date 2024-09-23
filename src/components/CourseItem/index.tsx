@@ -46,7 +46,7 @@ const CourseItem = ({ data, onDeleteCourse }: CourseItemProp) => {
             <svg
               stroke="currentColor"
               fill="currentColor"
-              stroke-width="0"
+              strokeWidth="0"
               viewBox="0 0 448 512"
               height="12px"
               width="12px"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Course } from "@/models/course.model";
 import VideoDetail from "@/components/VideoDetail";
@@ -26,10 +26,6 @@ const CourseDetail = ({ params }: { params: { courseId: string } }) => {
   const fetchCourse = useCallback(() => {
     setCourse(getCourseById(params.courseId));
   }, [params.courseId]);
-
-  useLayoutEffect(() => {
-    // document.body.style.overflow = "hidden";
-  }, []);
 
   useEffect(() => {
     fetchCourse();

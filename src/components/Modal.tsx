@@ -56,7 +56,7 @@ const Modal = ({ children, title, onClose }: ModalProps) => {
             <svg
               stroke="currentColor"
               fill="currentColor"
-              stroke-width="0"
+              strokeWidth="0"
               viewBox="0 0 512 512"
               height="30px"
               width="30px"
@@ -64,9 +64,9 @@ const Modal = ({ children, title, onClose }: ModalProps) => {
             >
               <path
                 fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="32"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="32"
                 d="M368 368 144 144m224 0L144 368"
               ></path>
             </svg>
