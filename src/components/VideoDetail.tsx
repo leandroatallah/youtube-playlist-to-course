@@ -2,7 +2,10 @@ import { useMemo } from "react";
 
 import { Course } from "@/models/course.model";
 import { Lesson } from "@/models/lesson.model";
+import { usePlayer } from "@/hooks/usePlayer";
+
 import { Button } from "./Button";
+import { setLessonAsDone } from "@/repositories/lesson.repository";
 
 type VideoDetailProps = {
   course: Course;
@@ -16,6 +19,14 @@ const VideoDetail = ({ course, onFinish }: VideoDetailProps) => {
     );
   }, [course.currentLessonId, course.lessons]);
 
+  const { iframeRef } = usePlayer(currentLesson?.videoId, handleOnFinish);
+
+  function handleOnFinish() {
+    if (currentLesson) {
+      setLessonAsDone(course.id, currentLesson.id);
+    }
+  }
+
   return (
     <div style={{ height: "calc(100% - 80px)" }}>
       <div
@@ -28,6 +39,7 @@ const VideoDetail = ({ course, onFinish }: VideoDetailProps) => {
         }}
       >
         <iframe
+          ref={iframeRef}
           width="853"
           height="480"
           src={`https://www.youtube.com/embed/${currentLesson?.videoId}?autoplay=1&loop=0&controls=1&modestbranding=0&rel=0&playsinline=1&ena
@@ -77,9 +89,9 @@ blejsapi=1`}
                 <svg
                   stroke="currentColor"
                   fill="currentColor"
-                  stroke-width="0"
+                  strokeWidth="0"
                   viewBox="0 0 1024 1024"
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   height="16px"
                   width="16px"
                   xmlns="http://www.w3.org/2000/svg"
