@@ -43,7 +43,7 @@ export const Header = ({
           }}
           onClick={() => {
             if (!disableLogoLink) {
-              location.href = "/";
+              location.href = hasCourses ? "/courses" : "/";
             }
           }}
         />
