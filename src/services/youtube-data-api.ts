@@ -19,6 +19,10 @@ type youtubePlaylistResponse = {
   thumbnails: youtubeThumbnails;
 };
 
+export const errorMessage: Record<string, string> = {
+  "Playlist not found": "A playlist não foi encontrada. Insira uma URL válida.",
+};
+
 export const fetchYouTubePlaylist = async (playlistId: string) => {
   const url = `${BASE_URL}/playlists?part=snippet&id=${playlistId}&key=${API_KEY}`;
   const response = await fetch(url);
@@ -80,7 +84,7 @@ export const fetchPlaylistItems = async (playlistId: string) => {
 
 export const fetchYoutubePlaylistAndItems = async (
   playlistId: string,
-): Promise<CoursePayload | null> => {
+): Promise<CoursePayload | null | Error> => {
   try {
     const playlistData = await fetchYouTubePlaylist(playlistId);
     const playlistItems = await fetchPlaylistItems(playlistId);
@@ -106,6 +110,6 @@ export const fetchYoutubePlaylistAndItems = async (
 
     return coursePayload;
   } catch (e) {
-    return null;
+    return e as Error;
   }
 };

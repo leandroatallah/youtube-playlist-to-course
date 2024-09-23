@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 
-import { getDataFromLocalStorage } from "@/database/localStorage";
-import { deleteCourse, exportCourses } from "@/services/course.crud";
-import { Course } from "@/models/course.model";
 import { useToast } from "@/context/ToastContext";
+import { getDataFromLocalStorage } from "@/database/localStorage";
+import { Course } from "@/models/course.model";
+import { deleteCourse, exportCourses } from "@/services/course.crud";
 
-import CourseItem from "./CourseItem";
 import { Button } from "./Button";
-import { ModalExport } from "./ModalExport";
+import CourseItem from "./CourseItem";
 import { ModalAddCourse } from "./ModalAddCourse";
+import { ModalExport } from "./ModalExport";
 
 const CourseList = () => {
   const { toast } = useToast();
@@ -64,7 +64,7 @@ const CourseList = () => {
         backgroundColor: "#1a1a1a",
         padding: 20,
         borderRadius: 4,
-        height: "calc(100% - 80px - 20px)",
+        maxHeight: "calc(100% - 80px - 20px)",
       }}
     >
       <div

@@ -1,6 +1,9 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
 
-import { fetchYoutubePlaylistAndItems } from "@/services/youtube-data-api";
+import {
+  errorMessage,
+  fetchYoutubePlaylistAndItems,
+} from "@/services/youtube-data-api";
 import { isValidYouTubePlaylistURL } from "@/utils/validate-url";
 import { createCourse } from "@/services/course.crud";
 import { useToast } from "@/context/ToastContext";
@@ -12,11 +15,32 @@ type FormProps = { onSuccess: () => void };
 export const Form = ({ onSuccess }: FormProps) => {
   const { toast } = useToast();
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showInputError, setShowInputError] = useState(false);
 
   const isUrlValid = isValidYouTubePlaylistURL(inputValue);
   const isButtonDisabled = isLoading || !isUrlValid;
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (inputValue.length && !isUrlValid) {
+      timer = setTimeout(() => {
+        setShowInputError(true);
+      }, 1000);
+    }
+
+    return () => {
+      clearTimeout(timer);
+      setShowInputError(false);
+    };
+  }, [inputValue]);
+
+  useLayoutEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   const handleOnInput = (e: FormEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
@@ -38,6 +62,12 @@ export const Form = ({ onSuccess }: FormProps) => {
     setIsLoading(true);
 
     const coursePayload = await fetchYoutubePlaylistAndItems(playlistId);
+
+    if (coursePayload instanceof Error) {
+      setIsLoading(false);
+      toast.error(errorMessage[coursePayload.message]);
+      return;
+    }
 
     if (!coursePayload) {
       setIsLoading(false);
@@ -64,15 +94,22 @@ export const Form = ({ onSuccess }: FormProps) => {
   return (
     <div
       style={{
+        position: "relative",
         display: "flex",
         flexDirection: "column",
         gap: 10,
       }}
     >
       <input
+        ref={inputRef}
         value={inputValue}
         type="url"
         placeholder="Cole uma URL de uma playlist do Youtube"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleOnSubmit();
+          }
+        }}
         onInput={handleOnInput}
         style={{
           height: 48,
@@ -91,6 +128,22 @@ export const Form = ({ onSuccess }: FormProps) => {
       >
         {isLoading ? "Carregando" : "Criar curso"}
       </Button>
+      {showInputError && (
+        <div
+          style={{
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            right: 0,
+            marginTop: 10,
+            fontSize: 12,
+            color: "#e33",
+            textAlign: "center",
+          }}
+        >
+          Insira uma URL de playlist válida.
+        </div>
+      )}
     </div>
   );
 };
