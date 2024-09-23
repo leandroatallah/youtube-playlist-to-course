@@ -1,12 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 
 import { Course } from "@/models/course.model";
-import { Button } from "./Button";
-import { useMemo, useState } from "react";
 import { getProgress } from "@/utils/get-pregress";
-import Modal from "./Modal";
+
+import { Button } from "../Button";
+import Modal from "../Modal";
+import styles from "./CourseItem.module.css";
 
 type CourseItemProp = {
   data: Course;
@@ -23,52 +25,19 @@ const CourseItem = ({ data, onDeleteCourse }: CourseItemProp) => {
   const progress = useMemo(() => getProgress(data.lessons), [data.lessons]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        gap: 14,
-      }}
-    >
+    <div className={styles.container}>
       <div>
         <div
-          style={{
-            width: 160,
-            paddingBottom: "56.25%",
-            backgroundColor: "rgba(124, 124, 124, 0.5)",
-            backgroundImage: `url(${data.thumbnailUrl})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            borderRadius: 4,
-            cursor: "pointer",
-          }}
+          className={styles.thumbnail}
           onClick={handlePushToDetail}
+          style={{
+            backgroundImage: `url(${data.thumbnailUrl})`,
+          }}
         />
       </div>
-      <div
-        style={{
-          flex: 1,
-          cursor: "pointer",
-        }}
-        onClick={handlePushToDetail}
-      >
-        <div
-          style={{
-            fontSize: 16,
-            fontWeight: 700,
-            marginBottom: 6,
-          }}
-        >
-          {data.title}
-        </div>
-        <div
-          style={{
-            fontSize: 14,
-            color: "#CECECE",
-          }}
-        >
-          Progresso: {progress}%
-        </div>
+      <div className={styles.content} onClick={handlePushToDetail}>
+        <div className={styles.title}>{data.title}</div>
+        <div className={styles.progress}>Progresso: {progress}%</div>
       </div>
       <div>
         <Button

@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+}
+
+.thumbnail {
+  width: 160px;
+  padding-bottom: 56.25%;
+  background-color: rgba(124, 124, 124, 0.5);
+  background-size: cover;
+  background-position: center;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.content {
+  flex: 1;
+  cursor: pointer;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.progress {
+  font-size: 14px;
+  color: #cecece;
+}

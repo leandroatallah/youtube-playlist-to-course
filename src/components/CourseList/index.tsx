@@ -7,10 +7,11 @@ import { getDataFromLocalStorage } from "@/database/localStorage";
 import { Course } from "@/models/course.model";
 import { deleteCourse, exportCourses } from "@/services/course.crud";
 
-import { Button } from "./Button";
-import CourseItem from "./CourseItem";
-import { ModalAddCourse } from "./ModalAddCourse";
-import { ModalExport } from "./ModalExport";
+import { Button } from "../Button";
+import CourseItem from "../CourseItem";
+import { ModalAddCourse } from "../ModalAddCourse";
+import { ModalExport } from "../ModalExport";
+import styles from "./CourseList.module.css";
 
 const CourseList = () => {
   const { toast } = useToast();
@@ -56,24 +57,8 @@ const CourseList = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 20,
-        backgroundColor: "#1a1a1a",
-        padding: 20,
-        borderRadius: 4,
-        maxHeight: "calc(100% - 80px - 20px)",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "end",
-          gap: 14,
-        }}
-      >
+    <div className={styles.container}>
+      <div className={styles.buttonTrack}>
         <Button onClick={handleAddCourses}>+ adicionar curso</Button>
         {hasCourses && (
           <div>
@@ -84,24 +69,8 @@ const CourseList = () => {
         )}
       </div>
       {hasCourses ? (
-        <div
-          style={{
-            overflowX: "auto",
-            height: "100%",
-            padding: 20,
-            paddingTop: 30,
-            backgroundColor: "#141414",
-            borderRadius: 6,
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 24,
-              flex: 1,
-            }}
-          >
+        <div className={styles.listContainer}>
+          <div className={styles.list}>
             {courses.map((course) => (
               <CourseItem
                 key={course.id}
@@ -112,15 +81,7 @@ const CourseList = () => {
           </div>
         </div>
       ) : (
-        <div
-          style={{
-            fontSize: 24,
-            fontWeight: 700,
-            color: "#CECECE",
-          }}
-        >
-          Não há cursos cadastrados.
-        </div>
+        <div className={styles.emptyMessage}>Não há cursos cadastrados.</div>
       )}
       {!!exportUrl && <ModalExport url={exportUrl} setUrl={setExportUrl} />}
       {showAddCourseModal && (

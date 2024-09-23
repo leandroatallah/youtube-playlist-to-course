@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 4px;
+  max-height: calc(100% - 80px - 20px);
+}
+
+.buttonTrack {
+  display: flex;
+  justify-content: end;
+  gap: 14px;
+}
+
+.listContainer {
+  overflow-x: auto;
+  height: 100%;
+  padding: 20px;
+  padding-top: 24px;
+  background-color: #141414;
+  border-radius: 6px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1;
+}
+
+.emptyMessage {
+  font-size: 24px;
+  font-weight: 700;
+  color: #cecece;
+}
