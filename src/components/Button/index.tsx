@@ -1,15 +1,17 @@
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, ReactNode } from "react";
 
 import styles from "./Button.module.css";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "outline";
+  icon?: ReactNode;
 }
 
 export const Button = ({
   children,
   type = "button",
   variant = "primary",
+  icon,
   ...props
 }: ButtonProps) => {
   const classVariant = {
@@ -24,6 +26,7 @@ export const Button = ({
       {...props}
     >
       {children}
+      {icon}
     </button>
   );
 };
