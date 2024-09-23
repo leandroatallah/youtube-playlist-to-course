@@ -116,6 +116,7 @@ export const Form = ({ onSuccess }: FormProps) => {
           border: "2px solid var(--primary)",
           borderRadius: 4,
           padding: "0 10px",
+          outline: 0,
         }}
       />
       <Button

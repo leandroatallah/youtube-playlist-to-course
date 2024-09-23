@@ -1,3 +1,4 @@
+import { useDetectClickOutside } from "@/hooks/useDetectClickOutside";
 import { ReactNode } from "react";
 
 type ModalProps = {
@@ -6,6 +7,10 @@ type ModalProps = {
   onClose?: () => void;
 };
 const Modal = ({ children, title, onClose }: ModalProps) => {
+  const ref = useDetectClickOutside({
+    onTriggered: () => onClose && onClose(),
+  });
+
   return (
     <div
       style={{
@@ -22,6 +27,7 @@ const Modal = ({ children, title, onClose }: ModalProps) => {
       }}
     >
       <div
+        ref={ref}
         style={{
           maxWidth: 480,
           width: "100%",
@@ -42,15 +48,28 @@ const Modal = ({ children, title, onClose }: ModalProps) => {
               position: "absolute",
               top: 10,
               right: 10,
-              fontSize: 18,
-              fontWeight: 700,
-              padding: 10,
               color: "#fff",
               cursor: "pointer",
             }}
             onClick={onClose}
           >
-            X
+            <svg
+              stroke="currentColor"
+              fill="currentColor"
+              stroke-width="0"
+              viewBox="0 0 512 512"
+              height="30px"
+              width="30px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="32"
+                d="M368 368 144 144m224 0L144 368"
+              ></path>
+            </svg>
           </div>
         )}
         {!!title && (
