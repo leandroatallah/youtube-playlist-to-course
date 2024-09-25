@@ -44,6 +44,9 @@ const CourseList = () => {
   };
 
   const handleExportCourses = () => {
+    if (typeof window == "undefined") {
+      return;
+    }
     const data = exportCourses();
 
     if (data) {

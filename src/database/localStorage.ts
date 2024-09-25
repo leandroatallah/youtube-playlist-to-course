@@ -10,7 +10,7 @@ const initialDataValue: Data = {
 };
 
 export const getDataFromLocalStorage = (): Data => {
-  if (typeof window == undefined) {
+  if (typeof window == "undefined") {
     return initialDataValue;
   }
 
@@ -27,7 +27,7 @@ export const getDataFromLocalStorage = (): Data => {
 };
 
 export const clearLocalStorage = () => {
-  if (typeof window == undefined) {
+  if (typeof window == "undefined") {
     return;
   }
 
@@ -35,7 +35,7 @@ export const clearLocalStorage = () => {
 };
 
 export const setDataToLocalStorage = (data: Data) => {
-  if (typeof window == undefined) {
+  if (typeof window == "undefined") {
     return;
   }
 

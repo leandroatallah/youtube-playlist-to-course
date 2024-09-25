@@ -119,12 +119,14 @@ blejsapi=1`}
                   ></path>
                 </svg>
               }
-              onClick={() =>
-                window.open(
-                  `https://www.youtube.com/watch?v=${currentLesson?.videoId}`,
-                  "_blank",
-                )
-              }
+              onClick={() => {
+                if (typeof window != "undefined") {
+                  window.open(
+                    `https://www.youtube.com/watch?v=${currentLesson?.videoId}`,
+                    "_blank",
+                  );
+                }
+              }}
             >
               ver no youtube
             </Button>

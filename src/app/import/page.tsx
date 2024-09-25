@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import Modal from "@/components/Modal";
@@ -9,6 +9,16 @@ import { importCourses } from "@/services/course.crud";
 import { Button } from "@/components/Button";
 
 const ImportPage = () => {
+  return (
+    <Suspense>
+      <div>
+        <ModalImport />
+      </div>
+    </Suspense>
+  );
+};
+
+const ModalImport = () => {
   const { toast } = useToast();
 
   const [disableAllButtons, setDisableAllButtons] = useState(false);
@@ -16,13 +26,18 @@ const ImportPage = () => {
   const searchParams = useSearchParams();
   const data = searchParams.get("data");
 
-  const handleConfirmImport = () => {
+  const handleConfirmImport = async () => {
     if (disableAllButtons) {
       return;
     }
 
     if (!data) {
-      // ...
+      toast.error();
+
+      setTimeout(() => {
+        location.href = "/";
+      }, 2000);
+
       return;
     }
 
@@ -30,7 +45,7 @@ const ImportPage = () => {
 
     const dataParsed = JSON.parse(data);
 
-    const { status } = importCourses(dataParsed);
+    const { status } = await importCourses(dataParsed);
 
     if (status === 400) {
       toast.error();
@@ -40,9 +55,9 @@ const ImportPage = () => {
 
     toast("Os cursos foram importados com sucesso.");
 
-    // setTimeout(() => {
-    //   location.href = "/courses";
-    // }, 2000);
+    setTimeout(() => {
+      location.href = "/courses";
+    }, 2000);
   };
 
   const handleCancelImport = () => {
@@ -54,27 +69,25 @@ const ImportPage = () => {
   }
 
   return (
-    <div>
-      <Modal title="Deseja importar novos cursos?">
-        <div
-          style={{
-            fontSize: 14,
-          }}
-        >
-          Ao confirmar seu progresso atual será sobrescrito.
-        </div>
-        <Button disabled={disableAllButtons} onClick={handleConfirmImport}>
-          Apagar conteúdo atual e importar cursos
-        </Button>
-        <Button
-          variant="outline"
-          disabled={disableAllButtons}
-          onClick={handleCancelImport}
-        >
-          cancelar
-        </Button>
-      </Modal>
-    </div>
+    <Modal title="Deseja importar novos cursos?">
+      <div
+        style={{
+          fontSize: 14,
+        }}
+      >
+        Ao confirmar seu progresso atual será sobrescrito.
+      </div>
+      <Button disabled={disableAllButtons} onClick={handleConfirmImport}>
+        Apagar conteúdo atual e importar cursos
+      </Button>
+      <Button
+        variant="outline"
+        disabled={disableAllButtons}
+        onClick={handleCancelImport}
+      >
+        cancelar
+      </Button>
+    </Modal>
   );
 };
 
