@@ -126,7 +126,7 @@ export const exportAll = () => {
 };
 
 export const importAll = async ({ data }: ImportData) => {
-  const courseIdList: string[] = [];
+  const courseIdList: { id: string }[] = [];
 
   data.forEach((course) => {
     courseIdList.push({
@@ -139,7 +139,7 @@ export const importAll = async ({ data }: ImportData) => {
   )
     .then((result) => {
       clearLocalStorage();
-      result.forEach((course) => create(course));
+      result.forEach((course) => course && create(course as CoursePayload));
     })
     .catch((error) => {
       console.log(error);

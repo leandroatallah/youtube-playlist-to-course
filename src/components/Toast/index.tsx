@@ -25,14 +25,14 @@ const ToastItem = ({ text, onDestroy }: ToastItemProps) => {
       }
     }
 
-    let timer = setTimeout(() => {
+    const timer = setTimeout(() => {
       onDestroy();
     }, TOAST_DURATION + TOAST_LEAVE_DURATION);
 
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [onDestroy]);
 
   useLayoutEffect(() => {
     const size = toastRef.current?.getBoundingClientRect();

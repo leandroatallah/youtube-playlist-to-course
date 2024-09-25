@@ -36,7 +36,7 @@ export const Form = ({ onSuccess }: FormProps) => {
       clearTimeout(timer);
       setShowInputError(false);
     };
-  }, [inputValue]);
+  }, [inputValue, isUrlValid]);
 
   useLayoutEffect(() => {
     inputRef.current?.focus();

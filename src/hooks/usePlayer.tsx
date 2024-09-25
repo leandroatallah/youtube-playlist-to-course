@@ -1,33 +1,39 @@
 import { useRef, useEffect } from "react";
 
+const SHOULD_USE_CREATE_PLAYER = false;
+
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady: () => void;
+  }
+}
+window.onYouTubeIframeAPIReady = window.onYouTubeIframeAPIReady || {};
+
 export const usePlayer = (
   videoId: string | undefined,
   onFinish: () => void,
 ) => {
-  if (!videoId) {
-    return {
-      iframeRef: null,
-    };
-  }
-
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-
     if (!window.YT) {
       const tag = document.createElement("script");
       tag.src = "https://www.youtube.com/iframe_api";
       document.body.appendChild(tag);
 
-      (window as any).onYouTubeIframeAPIReady = () => {
+      window.onYouTubeIframeAPIReady = () => {
         createPlayer();
       };
     } else {
       createPlayer();
     }
 
+    let timer: NodeJS.Timeout;
     function createPlayer() {
+      if (!SHOULD_USE_CREATE_PLAYER) {
+        return;
+      }
+
       if (iframeRef.current) {
         const player = new window.YT.Player(iframeRef.current, {
           videoId,
@@ -46,6 +52,7 @@ export const usePlayer = (
           const currentTime = player.getCurrentTime();
           const duration = player.getDuration();
           const pastTime = (currentTime / duration) * 100;
+          console.log(pastTime);
         }, 1000);
       }
     }
@@ -53,7 +60,13 @@ export const usePlayer = (
     return () => {
       clearInterval(timer);
     };
-  }, [videoId]);
+  }, [videoId, onFinish]);
+
+  if (!videoId) {
+    return {
+      iframeRef: null,
+    };
+  }
 
   return { iframeRef };
 };

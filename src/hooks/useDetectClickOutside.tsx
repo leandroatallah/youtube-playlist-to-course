@@ -5,7 +5,7 @@ export const useDetectClickOutside = (props: { onTriggered: () => void }) => {
   const { onTriggered } = props;
 
   useEffect(() => {
-    function handleClickOutside(event: any) {
+    function handleClickOutside(event: MouseEvent) {
       if (
         ref.current &&
         !(ref.current as HTMLElement).contains(event.target as Node)

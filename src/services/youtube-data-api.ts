@@ -46,11 +46,11 @@ export const fetchYouTubePlaylist = async (playlistId: string) => {
   };
 };
 
-type youtubePlaylistItem = {
-  title: string;
-  videoId: string;
-  thumbnailUrl: string;
-};
+// type youtubePlaylistItem = {
+//   title: string;
+//   videoId: string;
+//   thumbnailUrl: string;
+// };
 
 type youtubePlaylistItemsResponse = {
   items: [
