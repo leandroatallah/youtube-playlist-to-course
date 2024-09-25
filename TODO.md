@@ -1,2 +1,4 @@
 - [ ] Insert toast in all dialog sections
-- [ ] On finish video, add loading before redirect to next lesson
+- [ ] Add a search form to find Youtube's playlist
+- [ ] On landscape view, put video on full viewport size
+- [ ] Check the best solution for database (firebase, mongodb, postgres, etc.)
