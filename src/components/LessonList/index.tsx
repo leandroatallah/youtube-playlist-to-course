@@ -4,6 +4,8 @@ import { Course } from "@/models/course.model";
 import { Lesson } from "@/models/lesson.model";
 import { getProgress } from "@/utils/get-pregress";
 
+import styles from "./LessonList.module.css";
+
 type LessonListProps = {
   course: Course;
   items: Lesson[];
@@ -22,24 +24,8 @@ const LessonList = ({
   const progress = useMemo(() => getProgress(course.lessons), [course.lessons]);
 
   return (
-    <div
-      style={{
-        borderLeft: "2px solid #777",
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyItems: "space-between",
-          gap: 10,
-          backgroundColor: "#1A1A1A",
-          padding: 20,
-        }}
-      >
+    <div className={styles.container}>
+      <div className={styles.lessonListHeader}>
         <div
           style={{
             flex: 1,

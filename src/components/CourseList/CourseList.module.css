@@ -35,3 +35,22 @@
   font-weight: 700;
   color: #cecece;
 }
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 0;
+    gap: 0;
+  }
+
+  .buttonTrack {
+    padding: 20px;
+  }
+
+  .listContainer {
+    padding: 20px;
+  }
+
+  .list {
+    gap: 40px;
+  }
+}

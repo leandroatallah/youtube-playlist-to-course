@@ -14,6 +14,8 @@ import {
 import { useToast } from "@/context/ToastContext";
 import { Header } from "@/components/Header";
 
+import styles from "./page.module.css";
+
 const CourseDetail = ({ params }: { params: { courseId: string } }) => {
   const { toast } = useToast();
 
@@ -33,26 +35,9 @@ const CourseDetail = ({ params }: { params: { courseId: string } }) => {
 
   const CustomCourseTitle = useCallback(() => {
     return (
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          gap: 20,
-          alignItems: "center",
-        }}
-      >
+      <div className={styles.customHeader}>
         <div
-          style={{
-            width: 40,
-            height: 40,
-            backgroundColor: "#FAFAFA",
-            borderRadius: 40,
-            color: "#444",
-            display: "inline-flex",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-          }}
+          className={styles.customHeaderBack}
           onClick={() => {
             location.href = "/courses";
           }}
@@ -71,28 +56,9 @@ const CourseDetail = ({ params }: { params: { courseId: string } }) => {
             <path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path>
           </svg>
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 6,
-          }}
-        >
-          <div
-            style={{
-              fontSize: 24,
-              fontWeight: 700,
-            }}
-          >
-            {course?.title}
-          </div>
-          <div
-            style={{
-              fontSize: 14,
-            }}
-          >
-            {currentLesson?.title}
-          </div>
+        <div className={styles.customHeaderHead}>
+          <div className={styles.customHeaderTitle}>{course?.title}</div>
+          <div className={styles.customHeaderSub}>{currentLesson?.title}</div>
         </div>
       </div>
     );
@@ -153,27 +119,12 @@ const CourseDetail = ({ params }: { params: { courseId: string } }) => {
         }}
       >
         <Header headerTitle={<CustomCourseTitle />} hideNav />
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "nowrap",
-            borderTop: "2px solid #777",
-            height: "calc(100% - 80px)",
-          }}
-        >
-          <div
-            style={{
-              width: "calc(100% - 380px)",
-            }}
-          >
+        <div className={styles.grid}>
+          <div className={styles.videoContainer}>
             <VideoDetail course={course} onFinish={handleOnFinishLesson} />
           </div>
 
-          <div
-            style={{
-              width: 380,
-            }}
-          >
+          <div className={styles.lessonListContainer}>
             <LessonList
               currentLessonId={course.currentLessonId}
               course={course}

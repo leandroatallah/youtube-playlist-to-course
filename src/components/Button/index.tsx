@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, ReactNode } from "react";
 import styles from "./Button.module.css";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "outline";
+  variant?: "primary" | "outline" | "text";
   icon?: ReactNode;
 }
 
@@ -17,6 +17,7 @@ export const Button = ({
   const classVariant = {
     primary: "button--primary",
     outline: "button--outline",
+    text: "button--text",
   };
 
   return (

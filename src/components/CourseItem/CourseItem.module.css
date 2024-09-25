@@ -29,3 +29,13 @@
   font-size: 14px;
   color: #cecece;
 }
+
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .thumbnail {
+    width: 100%;
+  }
+}

@@ -1,0 +1,21 @@
+.container {
+  border-left: 2px solid #777;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.lessonListHeader {
+  display: flex;
+  align-items: center;
+  justify-items: space-between;
+  gap: 10px;
+  background-color: #1a1a1a;
+  padding: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    border-left: 0;
+  }
+}

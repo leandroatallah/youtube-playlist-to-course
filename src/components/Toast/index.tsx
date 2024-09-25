@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef } from "react";
+
 import { useToast, ToastProvider } from "@/context/ToastContext";
+
+import styles from "./Toast.module.css";
 
 const TOAST_DURATION = 3000;
 const TOAST_LEAVE_DURATION = 300;
@@ -45,37 +48,16 @@ const ToastItem = ({ text, onDestroy }: ToastItemProps) => {
   return (
     <div
       ref={toastRef}
+      className={styles.container}
       style={{
-        width: 320,
-        maxWidth: "100%",
-        height: 58,
-        overflow: "hidden",
         transition: `${TOAST_LEAVE_DURATION / 1000}s ${TOAST_DURATION / 1000}s all ease-in`,
       }}
     >
-      <div
-        style={{
-          position: "relative",
-          display: "flex",
-          alignItems: "center",
-          padding: 10,
-          borderRadius: 2,
-          height: 52,
-          background: "var(--primary)",
-          color: "#fff",
-          fontSize: 14,
-        }}
-      >
+      <div className={styles.toast}>
         <div
+          className={styles.toastBar}
           id="toast-bar"
           style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            width: "100%",
-            backgroundColor: "#000",
-            opacity: 0.5,
-            height: 6,
             transition: `${TOAST_DURATION / 1000}s all ease-in-out`,
           }}
         />
@@ -89,17 +71,7 @@ export const ToastStack = () => {
   const { toastList, removeToast } = useToast();
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        right: 40,
-        bottom: 40,
-        display: "flex",
-        flexDirection: "column-reverse",
-        pointerEvents: "none",
-        zIndex: 20,
-      }}
-    >
+    <div className={styles.list}>
       {toastList.map((toast) => (
         <ToastItem
           text={toast.text}

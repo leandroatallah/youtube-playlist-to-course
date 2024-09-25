@@ -1,0 +1,85 @@
+.grid {
+  display: flex;
+  flex-wrap: nowrap;
+  border-top: 2px solid #777;
+  height: calc(100% - 80px);
+}
+
+.videoContainer {
+  width: calc(100% - var(--sidebar-width));
+}
+
+.lessonListContainer {
+  width: var(--sidebar-width);
+}
+
+.customHeader {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.customHeaderBack {
+  width: 40px;
+  height: 40px;
+  background-color: #fafafa;
+  border-radius: 40px;
+  color: #444;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.customHeaderHead {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.customHeaderTitle {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.customHeaderLesson {
+  font-size: 14px;
+}
+
+@media screen and (max-width: 768px) {
+  .grid {
+    flex-direction: column;
+    height: 100%;
+    overflow: scroll;
+  }
+
+  .videoContainer {
+    width: 100%;
+  }
+
+  .lessonListContainer {
+    width: 100%;
+  }
+
+  .customHeader {
+    gap: 12px;
+  }
+
+  .customHeaderBack {
+    width: 32px;
+    height: 32px;
+  }
+
+  .customHeaderHead {
+    gap: 4px;
+  }
+
+  .customHeaderTitle {
+    font-size: 18px;
+  }
+
+  .customHeaderSub {
+    font-size: 12px;
+  }
+}

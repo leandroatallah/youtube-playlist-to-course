@@ -1,11 +1,14 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import { Course } from "@/models/course.model";
 import { Lesson } from "@/models/lesson.model";
 import { usePlayer } from "@/hooks/usePlayer";
-
-import { Button } from "./Button";
 import { setLessonAsDone } from "@/repositories/lesson.repository";
+
+import { Button } from "../Button";
+import styles from "./VideoDetail.module.css";
+import { updateCurrentLesson } from "@/services/course.crud";
+import { useToast } from "@/context/ToastContext";
 
 type VideoDetailProps = {
   course: Course;
@@ -13,6 +16,8 @@ type VideoDetailProps = {
 };
 
 const VideoDetail = ({ course, onFinish }: VideoDetailProps) => {
+  const { toast } = useToast();
+
   const currentLesson = useMemo<Lesson | undefined>(() => {
     return course.lessons.find(
       (lesson) => lesson.id === course.currentLessonId,
@@ -21,23 +26,62 @@ const VideoDetail = ({ course, onFinish }: VideoDetailProps) => {
 
   const { iframeRef } = usePlayer(currentLesson?.videoId, handleOnFinish);
 
+  const [showNextLessonDialog, setShowNextLessonDialog] = useState(false);
+
   function handleOnFinish() {
     if (currentLesson) {
+      setShowNextLessonDialog(true);
       setLessonAsDone(course.id, currentLesson.id);
     }
   }
 
+  function handleNextLesson() {
+    const currentIndex = course.lessons.findIndex(
+      (lesson) => lesson.id === currentLesson?.id,
+    );
+
+    if (currentIndex === course.lessons.length - 1) {
+      alert("Você finalizou seu curso");
+      return;
+    }
+
+    const nextLesson = course.lessons[currentIndex + 1];
+
+    if (!nextLesson) {
+      toast.error();
+    }
+
+    updateCurrentLesson(course.id, nextLesson.id);
+
+    location.reload();
+  }
+
   return (
-    <div style={{ height: "calc(100% - 80px)" }}>
-      <div
-        style={{
-          // overflow: "hidden",
-          // paddingBottom: "56.25%",
-          position: "relative",
-          width: "100%",
-          height: "100%",
-        }}
-      >
+    <div className={styles.container}>
+      <div className={styles.iframeContainer} style={{}}>
+        {showNextLessonDialog && (
+          <div className={styles.nextDialog}>
+            <div>
+              <Button
+                onClick={handleNextLesson}
+                style={{
+                  height: 52,
+                }}
+              >
+                Próxima aula
+              </Button>
+              <Button
+                onClick={() => setShowNextLessonDialog(false)}
+                variant="text"
+                style={{
+                  fontSize: 14,
+                }}
+              >
+                Cancelar
+              </Button>
+            </div>
+          </div>
+        )}
         <iframe
           ref={iframeRef}
           width="853"
@@ -47,42 +91,15 @@ blejsapi=1`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           title="Embedded youtube"
-          style={{
-            border: 0,
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-          }}
+          className={[
+            styles.iframe,
+            showNextLessonDialog ? styles.iframeBlur : "",
+          ].join(" ")}
         />
       </div>
-      <div style={{ padding: "0 20px" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "end",
-            alignItems: "center",
-            height: 80,
-            gap: 10,
-            fontSize: 21,
-            fontWeight: 700,
-          }}
-        >
-          {/* <div */}
-          {/*   style={{ */}
-          {/*     flex: 1, */}
-          {/*   }} */}
-          {/* > */}
-          {/*   {currentLesson?.title} */}
-          {/* </div> */}
-          <div
-            style={{
-              display: "flex",
-              gap: 10,
-              alignItems: "center",
-            }}
-          >
+      <div className={styles.toolbox}>
+        <div className={styles.toolboxInner}>
+          <div className={styles.buttonTrack}>
             <Button
               variant="outline"
               icon={

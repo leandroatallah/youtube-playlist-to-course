@@ -1,5 +1,2 @@
 - [ ] Insert toast in all dialog sections
-- [x] Put header in all pages
-- [ ] On finish video, set to done automatically
-- [ ] On finish video, redirect to next lesson
-- [x] Add message to insert a valid URL after a few secs.
+- [ ] On finish video, add loading before redirect to next lesson

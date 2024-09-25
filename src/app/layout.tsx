@@ -32,7 +32,7 @@ export default function RootLayout({
             style={{
               maxWidth: 768,
               margin: "0 auto",
-              padding: "0 10px",
+              padding: "0 20px",
             }}
           >
             {children}

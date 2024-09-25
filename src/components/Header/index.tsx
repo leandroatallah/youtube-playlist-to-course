@@ -3,7 +3,9 @@
 import { ReactNode } from "react";
 
 import { getAllCourses } from "@/services/course.crud";
-import Logo from "./Logo";
+
+import styles from "./Header.module.css";
+import Logo from "../Logo";
 
 type HeaderProps = {
   headerTitle?: ReactNode;
@@ -19,17 +21,7 @@ export const Header = ({
   const hasCourses = !!getAllCourses()?.length;
 
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 20,
-        padding: "0 20px",
-        height: 80,
-      }}
-    >
+    <div className={styles.container}>
       {!!headerTitle && headerTitle}
       <div
         style={{
