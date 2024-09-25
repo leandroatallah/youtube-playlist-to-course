@@ -1,7 +1,5 @@
 import { useRef, useEffect } from "react";
 
-const SHOULD_USE_CREATE_PLAYER = false;
-
 declare global {
   interface Window {
     onYouTubeIframeAPIReady: () => void;
@@ -16,6 +14,8 @@ export const usePlayer = (
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
+    let timer: NodeJS.Timeout;
+
     if (!window.YT) {
       const tag = document.createElement("script");
       tag.src = "https://www.youtube.com/iframe_api";
@@ -28,12 +28,7 @@ export const usePlayer = (
       createPlayer();
     }
 
-    let timer: NodeJS.Timeout;
     function createPlayer() {
-      if (!SHOULD_USE_CREATE_PLAYER) {
-        return;
-      }
-
       if (iframeRef.current) {
         const player = new window.YT.Player(iframeRef.current, {
           videoId,
@@ -49,6 +44,10 @@ export const usePlayer = (
         });
 
         timer = setInterval(() => {
+          if (!player?.getDuration) {
+            return;
+          }
+
           const currentTime = player.getCurrentTime();
           const duration = player.getDuration();
           const pastTime = (currentTime / duration) * 100;
