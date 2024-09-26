@@ -37,7 +37,7 @@ const CourseItem = ({ data, onDeleteCourse }: CourseItemProp) => {
       </div>
       <div className={styles.content} onClick={handlePushToDetail}>
         <div className={styles.title}>{data.title}</div>
-        <div className={styles.progress}>Progresso: {progress}%</div>
+        <div className={styles.progress}>Progresso: {progress.toFixed(0)}%</div>
       </div>
       <div>
         <Button

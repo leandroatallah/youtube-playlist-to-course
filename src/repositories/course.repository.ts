@@ -5,6 +5,7 @@ import {
 } from "@/database/localStorage";
 import { Course, CoursePayload } from "@/models/course.model";
 import { fetchYoutubePlaylistAndItems } from "@/services/youtube-data-api";
+import { setLessonAsDone } from "./lesson.repository";
 
 // const currentStorage = localStorageService;
 
@@ -126,24 +127,31 @@ export const exportAll = () => {
 };
 
 export const importAll = async ({ data }: ImportData) => {
-  const courseIdList: { id: string }[] = [];
+  const courseList: { id: string; progress: string[] }[] = [];
 
   data.forEach((course) => {
-    courseIdList.push({
+    courseList.push({
       id: course.id,
+      progress: course.prg,
     });
   });
 
   await Promise.all(
-    courseIdList.map((course) => fetchYoutubePlaylistAndItems(course.id)),
+    courseList.map((course) => fetchYoutubePlaylistAndItems(course.id)),
   )
     .then((result) => {
       clearLocalStorage();
-      result.forEach((course) => course && create(course as CoursePayload));
+      result.forEach((item) => item && create(item as CoursePayload));
     })
     .catch((error) => {
       console.log(error);
     });
+
+  courseList.forEach((course) => {
+    course.progress?.forEach((lesson) => {
+      setLessonAsDone(course.id, lesson);
+    });
+  });
 
   return {
     status: 201,
