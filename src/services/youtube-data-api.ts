@@ -1,5 +1,6 @@
 import { YOUTUBE_DATA_API_V3_KEY as API_KEY } from "@/constants/config";
 import { CoursePayload } from "@/models/course.model";
+import { Lesson } from "@/models/lesson.model";
 
 const BASE_URL = "https://www.googleapis.com/youtube/v3";
 
@@ -64,22 +65,37 @@ type youtubePlaylistItemsResponse = {
       };
     },
   ];
+  nextPageToken?: string;
 };
 
-export const fetchPlaylistItems = async (playlistId: string) => {
-  const url = `${BASE_URL}/playlistItems?part=snippet&playlistId=${playlistId}&maxResults=50&key=${API_KEY}`;
+export const fetchPlaylistItems = async (
+  playlistId: string,
+  pageToken: string | null,
+) => {
+  const pageTokenQuery = pageToken ? `&pageToken=${pageToken}` : "";
+  const url = `${BASE_URL}/playlistItems?part=snippet&playlistId=${playlistId}&maxResults=50&key=${API_KEY}${pageTokenQuery}`;
   const response = await fetch(url);
   const data = (await response.json()) as youtubePlaylistItemsResponse;
 
   if (!data?.items?.length) {
-    return [];
+    return { items: [], nextPageToken: null };
   }
 
-  return data.items.map((item) => ({
-    title: item.snippet.title,
-    videoId: item.snippet.resourceId.videoId,
-    thumbnailUrl: item.snippet.thumbnails.default.url,
-  }));
+  const items = data.items
+    .filter((item) => item.snippet.title !== "Private video")
+    .map((item) => {
+      console.log(item);
+      return {
+        title: item.snippet.title,
+        videoId: item.snippet.resourceId.videoId,
+        thumbnailUrl: item.snippet.thumbnails.default.url,
+      };
+    });
+
+  return {
+    items,
+    nextPageToken: data?.nextPageToken || null,
+  };
 };
 
 export const fetchYoutubePlaylistAndItems = async (
@@ -87,7 +103,24 @@ export const fetchYoutubePlaylistAndItems = async (
 ): Promise<CoursePayload | null | Error> => {
   try {
     const playlistData = await fetchYouTubePlaylist(playlistId);
-    const playlistItems = await fetchPlaylistItems(playlistId);
+    const playlistItems: Omit<Lesson, "id" | "done">[] = [];
+
+    let shouldFetchItems = true;
+    let pageToken: string | null = null;
+
+    while (shouldFetchItems) {
+      const { items, nextPageToken } = await fetchPlaylistItems(
+        playlistId,
+        pageToken,
+      );
+
+      if (items?.length) {
+        playlistItems.push(...items);
+      }
+
+      pageToken = nextPageToken;
+      shouldFetchItems = !!nextPageToken;
+    }
 
     const { title, description, channelTitle, channelId, thumbnailUrl } =
       playlistData;
@@ -110,6 +143,7 @@ export const fetchYoutubePlaylistAndItems = async (
 
     return coursePayload;
   } catch (e) {
+    console.log(e);
     return e as Error;
   }
 };
