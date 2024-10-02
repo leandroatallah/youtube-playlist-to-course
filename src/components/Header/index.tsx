@@ -2,10 +2,11 @@
 
 import { ReactNode } from "react";
 
-import { getAllCourses } from "@/services/course.crud";
-
 import styles from "./Header.module.css";
 import Logo from "../Logo";
+import { Button } from "../Button";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/context/ToastContext";
 
 type HeaderProps = {
   headerTitle?: ReactNode;
@@ -18,16 +19,23 @@ export const Header = ({
   hideNav,
   disableLogoLink,
 }: HeaderProps) => {
-  const hasCourses = !!getAllCourses()?.length;
+  const { isUserLoggedIn, isLoadingAuth, handleSignOut } = useAuth();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    const { error } = await handleSignOut();
+    if (error) {
+      toast.error();
+      return;
+    }
+    location.href = "/";
+    return;
+  };
 
   return (
     <div className={styles.container}>
-      {!!headerTitle && headerTitle}
-      <div
-        style={{
-          flex: hasCourses && !headerTitle ? 1 : "unset",
-        }}
-      >
+      {headerTitle}
+      <div className={styles.logo}>
         <Logo
           style={{
             display: "inline-block",
@@ -35,28 +43,37 @@ export const Header = ({
           }}
           onClick={() => {
             if (!disableLogoLink) {
-              location.href = hasCourses ? "/courses" : "/";
+              location.href = "/";
             }
           }}
         />
       </div>
-      {!hideNav && hasCourses && (
-        <button
-          type="button"
-          style={{
-            padding: 0,
-            border: 0,
-            background: "unset",
-            fontSize: 14,
-            fontWeight: 700,
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            location.href = "/courses";
-          }}
-        >
-          Meus cursos
-        </button>
+      {!isLoadingAuth && !hideNav && (
+        <div className={styles.nav}>
+          {isUserLoggedIn && (
+            <Button
+              variant="text"
+              onClick={() => {
+                location.href = "/courses";
+              }}
+            >
+              Meus cursos
+            </Button>
+          )}
+          <Button
+            variant="text"
+            onClick={async () => {
+              if (isUserLoggedIn) {
+                handleLogout();
+                return;
+              }
+
+              location.href = "/login";
+            }}
+          >
+            {isUserLoggedIn ? "Sair" : "Entrar"}
+          </Button>
+        </div>
       )}
     </div>
   );

@@ -3,7 +3,6 @@
 import { Form } from "@/components/Form";
 import { Header } from "@/components/Header";
 import globalStyles from "@/styles/global.module.css";
-
 import styles from "./page.module.css";
 
 export default function Home() {

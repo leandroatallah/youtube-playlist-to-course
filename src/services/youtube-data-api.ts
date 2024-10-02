@@ -1,4 +1,4 @@
-import { YOUTUBE_DATA_API_V3_KEY as API_KEY } from "@/constants/config";
+import { YOUTUBE_DATA_API_V3_KEY as API_KEY } from "@/constants";
 import { CoursePayload } from "@/models/course.model";
 import { Lesson } from "@/models/lesson.model";
 

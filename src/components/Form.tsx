@@ -7,6 +7,7 @@ import {
 import { isValidYouTubePlaylistURL } from "@/utils/validate-url";
 import { createCourse } from "@/services/course.crud";
 import { useToast } from "@/context/ToastContext";
+import globalStyles from "@/styles/global.module.css";
 
 import { Button } from "./Button";
 
@@ -111,13 +112,7 @@ export const Form = ({ onSuccess }: FormProps) => {
           }
         }}
         onInput={handleOnInput}
-        style={{
-          height: 48,
-          border: "2px solid var(--primary)",
-          borderRadius: 4,
-          padding: "0 10px",
-          outline: 0,
-        }}
+        className={globalStyles.input}
       />
       <Button
         disabled={isButtonDisabled}

@@ -10,3 +10,22 @@
   justify-content: center;
   align-items: center;
 }
+
+.input {
+  height: 48px;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  padding: 0 10px;
+  outline: 0;
+  width: 100%;
+}
+.input:focus {
+  border-color: var(--primary);
+}
+
+.pageTitle {
+  font-size: 32px;
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 20px;
+}

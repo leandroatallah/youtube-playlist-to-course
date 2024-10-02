@@ -1,4 +1,4 @@
-import * as config from "@/constants/config";
+import * as config from "@/constants";
 import { Course } from "@/models/course.model";
 
 type Data = {

@@ -1,0 +1,60 @@
+.formContainer {
+  border-radius: 8px;
+  width: 420px;
+  max-width: 100%;
+  margin: 20px auto 0;
+}
+.inputGroup {
+  margin-bottom: 16px;
+}
+.buttonStack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.forgotPassword {
+  margin-top: 12px;
+}
+.forgotLink {
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--primary);
+}
+.forgotLink:hover {
+  opacity: 0.8;
+}
+.divider {
+  margin: 32px 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.divider .line {
+  width: 100%;
+  border-top: 1px solid #777;
+}
+.divider span {
+  background-color: var(--background);
+  padding: 0 12px;
+  font-size: 14px;
+  color: #bdbdbd;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.oauthButtons {
+  margin-top: 24px;
+}
+.oauthButtons button {
+  width: 100%;
+  padding: 8px 16px;
+  color: white;
+  background-color: #4c51bf;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+.oauthButtons button:hover {
+  background-color: #434190;
+}

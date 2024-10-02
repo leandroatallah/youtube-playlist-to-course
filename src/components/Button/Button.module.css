@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   gap: 6px;
-  border: 2px solid var(--primary);
+  border: 1px solid var(--primary);
   border-radius: 4px;
   height: 40px;
   background-color: var(--primary);
@@ -29,6 +29,7 @@
 }
 
 .button--outline {
+  border-color: #f0f0f0;
   background-color: unset;
 }
 
