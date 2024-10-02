@@ -12,6 +12,7 @@
     "src/types/global.d.ts"
   ],
   "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
     "next": "14.2.10",
     "react": "^18",
     "react-dom": "^18"
